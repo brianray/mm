@@ -3,7 +3,7 @@ Marmir is powerful and fun
 
 Marmir takes python data structures and turns them into spreadsheets.
 
-It is xlst and google spreadsheets on steriods.
+It is xlwt and google spreadsheets on steriods.
 
 
 ## Marmir is written with love
