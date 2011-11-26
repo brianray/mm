@@ -5,15 +5,15 @@ Marmir takes python data structures and turns them into spreadsheets.
 
 It is xlwt and google spreadsheets on steriods.
 
-
 ## Marmir is written with love
 
-He is the organizer of ChiPy (http://chipy.org), one of the top 25 tech in
-Chicago (according to Crains Oct 2011), been professionaly developing software
-for business for 15 years and he is sick of sub-par Python libraries for
-creating business spreadsheets, Brian Ray (@brianray) wrote Marmir.
+Brian Ray (@branray) wrote Marmir. Brian: is the organizer of ChiPy
+(http://chipy.org); one of the top 25 tech in Chicago (according to Crains Oct
+2011); been professionaly developing software for business for 15 years ; and
+is sick of sub-par Python libraries for creating business spreadsheets.
 
-The name Marmir is 
+The name Marmir name from cabining parts of the names Maura and Miranda,
+Brian's girls and who this software is deadicated.
 
 ## Marmir melts in your mouth
 
@@ -71,10 +71,7 @@ mm_doc.write("example.html")
 mm_doc.google_doc_publish("Username", "Pass", "Example Spreadsheet")
 ```
 
-
 There is a lot more. Check out the unit tests.
-
-
 
 ## ... Not in your hand
 
@@ -92,7 +89,6 @@ Some other stuff:
 
  * do summaries and break out tables
  * add logic and math functions
-
 
 
 Copyright
