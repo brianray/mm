@@ -24,4 +24,3 @@ class GridBase(object):
                 )
         log.info("populated grid %sX%s" % (self.row_count,self.col_count))
 
-

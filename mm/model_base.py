@@ -7,6 +7,8 @@ class BaseFieldType(object):
     def __init__(self, data):
         self.data = data
 
+class HeaderFieldType(BaseFieldType):
+    pass
 
 class DateFieldType(BaseFieldType):
     pass
