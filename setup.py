@@ -3,10 +3,9 @@
 # ...
 
 from distutils.core import setup
-from web import __version__
 
 setup(name='Marmir',
-      version=__version__,
+      version="0.1",
       description='Marmir: makes spreadsheets easy',
       author='Brian Ray',
       author_email='brianhray@gmail.com',

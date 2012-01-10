@@ -22,7 +22,7 @@ class TestBasicSuite(unittest.TestCase):
         ]
 
         mm_doc = mm.Document(my_data)
-        str = mm_doc.write("test.xls") 
+        str = mm_doc.writestr()  #write("test.xls") 
         self.assertTrue(len(str) > 10, 
             msg="String should be longer than %s" % len(str))
 

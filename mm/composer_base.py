@@ -21,9 +21,11 @@ class ComposerBase(object):
 
         for row in self.grid.grid_data:
             self.col_id = 0
+            self.start_new_row(self.row_id)
             for cell in row:
                 self.write_cell(self.row_id, self.col_id, cell)
                 self.col_id += 1
+            self.end_row(self.row_id)
             self.row_id += 1
 
         

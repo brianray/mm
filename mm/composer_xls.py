@@ -3,24 +3,62 @@ import lib.xlwt_0_7_2 as xlwt
 import logging
 import StringIO
 import model_base
-
+import style_base
 
 log = logging.getLogger(__name__)
 
 
+class styleXLS(style_base.StyleBase):
+
+    
+    font_name = "Times New Roman"
+    is_bold = False
+    font_points = 12
+    text_align = xlwt.Alignment()
+    pattern = xlwt.Pattern()
+    border = xlwt.Borders()
+
+
 class ComposerXLS(ComposerBase):
 
+
+    def convert_style(self, stylestr):
+       in_style = styleXLS()
+       in_style.style_from_string(stylestr)
+
+       style =  xlwt.XFStyle()
+       fnt1 = xlwt.Font()
+       fnt1.name = in_style.font_name
+       fnt1.bold = in_style.is_bold
+       fnt1.height = in_style.font_points*0x14
+       style.font = fnt1
+       style.alignment = in_style.text_align
+       style.pattern = in_style.pattern
+       style.borders = in_style.border
+
+       return style
+
     def cell_to_value(self, cell):
-        style = xlwt.XFStyle()
+        
+        style = self.convert_style(self.document.config.row_styles[0])
         
         if type(cell) == model_base.HeaderFieldType:
+            style = self.convert_style(self.document.config.header_style)
             return cell.data, style
 
         elif type(cell) == model_base.StringFieldType:
             return cell.data, style
+
         
         return "", style
 
+
+    def start_new_row(self, id):
+        pass
+
+
+    def end_row(self, id):
+        pass
 
     def write_cell(self, row_id, col_id, cell):
         
