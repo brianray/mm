@@ -1,13 +1,13 @@
 Marmir is powerful and fun
 ==========================
 
-Marmir takes python data structures and turns them into spreadsheets.
+Marmir takes Python data structures and turns them into spreadsheets.
 
 It is xlwt and google spreadsheets on steroids.
 
 ## Marmir is written with love
 
-Brian Ray (@branray) wrote Marmir. Brian: is the organizer of ChiPy
+Brian Ray (@brianray) wrote Marmir. Brian: is the organizer of ChiPy
 (http://chipy.org); one of the top 25 tech in Chicago (according to Crains Oct
 2011); been professionaly developing software for business for 15 years ; and
 is sick of sub-par Python libraries for creating business spreadsheets.
@@ -94,5 +94,5 @@ Some other stuff:
 Copyright
 ---------
 
-Copyright (c) 2011 Brian Ray
+Copyright (c) 2012 Brian Ray
 
