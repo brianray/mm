@@ -53,7 +53,7 @@ my_data = [
     {
         'msg': "My first Cell",
         'id': 1,
-        'when': mm.Date(datetime.datetime.now(), "%Y-%m-%dT%H:%M:%S%z"),
+        'when': mm.Date(datetime.datetime.now(), "%Y-%m-%dT%H:%M:%S"),
         'homepage': mm.URL("https://github.com/brianray")
     },
     {
