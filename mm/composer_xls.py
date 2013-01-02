@@ -1,5 +1,6 @@
 from composer_base import ComposerBase
 import lib.xlwt_0_7_2 as xlwt
+from lib.font_data.core import get_string_width 
 import logging
 import StringIO
 import model_base
@@ -8,9 +9,13 @@ import style_base
 log = logging.getLogger(__name__)
 
 
+def get_string_width_from_style(char_string, style):
+    point_size = style.font.height / 0x14 # convert back to points 
+    font_name = style.font.name
+    return int(get_string_width(font_name, point_size, char_string) * 50)
+
 class styleXLS(style_base.StyleBase):
 
-    
     font_name = "Times New Roman"
     is_bold = False
     font_points = 12
@@ -46,9 +51,15 @@ class ComposerXLS(ComposerBase):
             style = self.convert_style(self.document.config.header_style)
             return cell.data, style
 
-        elif type(cell) == model_base.StringFieldType:
+        elif type(cell) in (model_base.IntFieldType, model_base.StringFieldType):
             return cell.data, style
 
+        elif type(cell) == model_base.DateTimeFieldType:
+            style.num_format_str = self.document.config.get('datetime_format', 'M/D/YY h:mm')
+            return cell.data, style
+        elif type(cell) == model_base.DateFieldType:
+            style.num_format_str = self.document.config.get('date_format', 'M/D/YY')
+            return cell.data, style
         
         return "", style
 
@@ -64,7 +75,28 @@ class ComposerXLS(ComposerBase):
         
         value, style = self.cell_to_value(cell)
         self.sheet.write(row_id, col_id, value, style)
+        self.done_write_cell(row_id, col_id, cell, value, style)
 
+    def done_write_cell(self, row_id, col_id, cell, value, style):
+         if self.document.config.get('adjust_all_col_width', False):    
+             if type(cell) == model_base.StringFieldType:
+                current_width = self.sheet.col_width(col_id)
+                log.info("current width is %s" % current_width)
+                new_width = get_string_width_from_style(value, style)
+                if new_width > current_width:
+                    log.info("setting col #%s form width %s to %s" % (col_id,current_width,new_width))
+                    col = self.sheet.col(col_id)
+                    col.width = new_width
+             elif type(cell) == model_base.DateTimeFieldType:
+                current_width = self.sheet.col_width(col_id)
+                log.info("current width is %s" % current_width)
+                new_width = 5000 #todo: different date formats
+                if new_width > current_width:
+                    log.info("setting col #%s form width %s to %s" % (col_id,current_width,new_width))
+                    col = self.sheet.col(col_id)
+                    col.width = new_width
+                 
+                
 
     def set_option(self, key):
        

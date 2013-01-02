@@ -8,6 +8,8 @@ __author__ = [
 __license__ = "TBD"
 
 from document_base import *
+import model_base
 
-
+Date = model_base.DateFieldType
+URL = model_base.URLFieldType
 

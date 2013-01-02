@@ -7,13 +7,12 @@ optional: data_model = DataModel(data)
 optional: serializer_class = Serializer(data_model, data) 
 doc = Document( data, data_model, serializer_class, config)
 
-Init Document
--------------
+## Init Document
 
 doc.grid - serializer.serialize() # returns GridBase()
 
-GridBase population
-```````````````````
+``` GridBase population
+
 grid.populate(data) 
 
 grid must have attirbutes: row_count, col_count, headers
@@ -38,8 +37,7 @@ The 'when' in the first is an actual user defined instance of a DateFieldType.
  
 
 
-Writing Documents
------------------
+## Writing Documents
 
 DocumentWriter class provides in which method a document is written: to disk, to a string, or (future) to a remote server or custom protocal.
 
@@ -51,8 +49,7 @@ composer = Composer(data_model, grid, doc)
 composer.run() 
 
 
-ComposerBase
-------------
+``` ComposerBase
 
 comp.iterate_grid() is available to all Composer classes that inheritae from ComposerBase. It does most of the work. 
 
@@ -64,8 +61,7 @@ The on each cell, the method 'write_cell' is called passing arguments: row_id, c
 
 
 
-ComposerXLS Internals
----------------------
+``` ComposerXLS Internals
 
 Wether or not headers are written is dependent on your config you pass in to Document. Otherwise, the default configuration will be used.
 
@@ -74,9 +70,10 @@ Wether or not headers are written is dependent on your config you pass in to Doc
 
 
 
-Configuation Settings
-~~~~~~~~~~~~~~~~~~~~~
+## Configuation Settings
 
+
+SuppressDebuggerExceptionDialogs=1
 
 
 

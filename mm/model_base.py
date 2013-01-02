@@ -1,4 +1,8 @@
 import logging
+from datetime import datetime
+import inspect
+import sys
+from lib.font_data.decorators import memoized
 
 log = logging.getLogger(__name__)
 
@@ -6,12 +10,20 @@ class BaseFieldType(object):
     header_title = u''
     def __init__(self, data):
         self.data = data
+   
+    def __repr__(self):
+        return unicode(self)
+
+    def __unicode__(self):
+        return u"%s (%s)" % ( self.header_title, type(self) )
 
 class HeaderFieldType(BaseFieldType):
     pass
 
 class DateFieldType(BaseFieldType):
-    pass
+    def __init__(self, data, format):
+        self.format = format
+        super(DateFieldType, self).__init__(data)
 
 class TimeFieldType(BaseFieldType):
     pass
@@ -44,6 +56,16 @@ class NoneFieldType(BaseFieldType):
     pass
 
 
+@memoized
+def get_members_list():
+    return [x[1] for x in inspect.getmembers(sys.modules[__name__], inspect.isclass)]
+
+
+def is_custom_mm_type(inst):
+    members = get_members_list()
+    if type(inst) in members:
+        return True
+    return False
 
 class DataModel(object):
     """ Data Model creates a list of system defined data types in self.field_headers"""
@@ -65,17 +87,31 @@ class DataModel(object):
                 keys.sort()
            
             for k in keys:
-                # first we figure out the type
-                # to use in the instance
-                field_type_class = self.figure_out_type(data[0][k])
+                log.info("looking at %s ..." % data[0][k])
+                if is_custom_mm_type(data[0][k]):
+                    field_type_class = type(data[0][k])
+                else:
+                    # we figure out the type
+                    field_type_class = self.figure_out_type(data[0][k])
+
+                # we add it to the 'class' so to be
+                # used in every instance
                 field_type_class.header_title = k
                 self.field_headers.append(field_type_class)
                 log.info("created field type %s for %s" %(field_type_class,k))
 
     def figure_out_type(self,item):
-        if type(item) == unicode or type(item) == str:
+        item_type= type(item)
+        if item_type == unicode or item_type == str:
             return  StringFieldType
-        
+
+        elif item_type == int:
+            return IntFieldType
+                    
+        elif item_type == datetime:
+            return DateTimeFieldType
+
+        log.warn("Returning None type for type %s" % item_type)
         return NoneFieldType
 
 

@@ -1,4 +1,5 @@
 import logging
+from model_base import is_custom_mm_type
 
 log = logging.getLogger(__name__)
 
@@ -19,8 +20,23 @@ class GridBase(object):
         for row_id in range(self.row_count):
             for col_id in range(self.col_count):
                 field_type_class = self.headers[col_id]
-                self.grid_data[row_id][col_id] = field_type_class(
-                                indata[row_id][field_type_class.header_title] # direct data access
-                )
+
+                try:
+
+                    data = indata[row_id][field_type_class.header_title] # direct data access
+                    if is_custom_mm_type(data):
+                        # explicit type
+                        self.grid_data[row_id][col_id] = data
+                    else:
+                        # wrap in type from headers
+                        self.grid_data[row_id][col_id] = field_type_class(data)
+                except Exception,e:
+                   str= "problem with arguments %s building %s" % (
+                                    indata[row_id][field_type_class.header_title],  
+                                    field_type_class)
+                   print str
+                   log.error(str)
+                   raise e
+
         log.info("populated grid %sX%s" % (self.row_count,self.col_count))
 

@@ -2,6 +2,11 @@
 
 class ConfigBase(object):
     """ Holds the configuration """
+
+    def get(self,key,default=None):
+        if hasattr(self,key):
+            return getattr(self,key)
+        return default
     
     def __init__(self, config=None):
         if config:
@@ -18,5 +23,7 @@ class ConfigBase(object):
         "color: #999999;  font-family: arial; background-color: #000000"   # Alternate
     )
     adjust_all_col_width = True
+    datetime_format = 'M/D/YY h:mm:ss'
+    date_format = 'M/D/YY'
 
 

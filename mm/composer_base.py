@@ -33,7 +33,8 @@ class ComposerBase(object):
     def write_header(self):
         i = 0
         for header in self.data_model.field_headers:
-            cell = HeaderFieldType(header.header_title)
+            cell = HeaderFieldType(data=header.header_title)
+            log.info(cell.__dict__)
             self.write_cell(0, i, cell)
             i += 1
         self.row_id += 1
