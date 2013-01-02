@@ -5,7 +5,7 @@ import mm
 class TestBasicSuite(unittest.TestCase):
 
 
-    def Xtest_minimal(self):
+    def test_minimal(self):
 
         my_data = [ 
             {
@@ -28,8 +28,6 @@ class TestBasicSuite(unittest.TestCase):
         f.write(str)
         f.close()
 
-    def test_simple_types(self):
-        date = mm.Date(datetime.datetime.now(), "%Y-%m-%dT%H:%M:%S%z")
         
     def test_mid_complex(self):
 
@@ -37,7 +35,7 @@ class TestBasicSuite(unittest.TestCase):
             {
                 'msg': "My first Cell",
                 'id': 1,
-                'when': mm.Date(datetime.datetime.now(), "%Y-%m-%dT%H:%M:%S%z"),
+                'when': mm.Date(datetime.datetime.now(), "%Y-%m-%dT%H:%M:%S"),
             #    'homepage': mm.URL("https://github.com/brianray")
             },
             {

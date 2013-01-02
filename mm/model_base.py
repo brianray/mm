@@ -21,7 +21,7 @@ class HeaderFieldType(BaseFieldType):
     pass
 
 class DateFieldType(BaseFieldType):
-    def __init__(self, data, format):
+    def __init__(self, data, format=None):
         self.format = format
         super(DateFieldType, self).__init__(data)
 
@@ -58,7 +58,9 @@ class NoneFieldType(BaseFieldType):
 
 @memoized
 def get_members_list():
-    return [x[1] for x in inspect.getmembers(sys.modules[__name__], inspect.isclass)]
+    return [ x[1] for x 
+             in inspect.getmembers(sys.modules[__name__], inspect.isclass) 
+             if issubclass(x[1], BaseFieldType)]
 
 
 def is_custom_mm_type(inst):

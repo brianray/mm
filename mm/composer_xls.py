@@ -1,6 +1,7 @@
 from composer_base import ComposerBase
 import lib.xlwt_0_7_2 as xlwt
 from lib.font_data.core import get_string_width 
+from lib.xldate.convert import to_excel_from_C_codes
 import logging
 import StringIO
 import model_base
@@ -44,7 +45,7 @@ class ComposerXLS(ComposerBase):
        return style
 
     def cell_to_value(self, cell):
-        
+         
         style = self.convert_style(self.document.config.row_styles[0])
         
         if type(cell) == model_base.HeaderFieldType:
@@ -58,7 +59,10 @@ class ComposerXLS(ComposerBase):
             style.num_format_str = self.document.config.get('datetime_format', 'M/D/YY h:mm')
             return cell.data, style
         elif type(cell) == model_base.DateFieldType:
-            style.num_format_str = self.document.config.get('date_format', 'M/D/YY')
+            num_string_format = self.document.config.get('date_format', 'M/D/YY')
+            if cell.format:
+                num_string_format = to_excel_from_C_codes(cell.format, self.document.config)
+            style.num_format_str = num_string_format
             return cell.data, style
         
         return "", style
@@ -134,9 +138,5 @@ class ComposerXLS(ComposerBase):
         output.close()
 
         return contents
-
-
-
-
 
 

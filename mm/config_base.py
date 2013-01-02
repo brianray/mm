@@ -25,5 +25,7 @@ class ConfigBase(object):
     adjust_all_col_width = True
     datetime_format = 'M/D/YY h:mm:ss'
     date_format = 'M/D/YY'
+    time_format = "h:mm:ss"
+
 
 
