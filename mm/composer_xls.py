@@ -64,8 +64,10 @@ class ComposerXLS(ComposerBase):
                 num_string_format = to_excel_from_C_codes(cell.format, self.document.config)
             style.num_format_str = num_string_format
             return cell.data, style
+
+        else:
+            return cell.data, style
         
-        return "", style
 
 
     def start_new_row(self, id):
@@ -78,7 +80,15 @@ class ComposerXLS(ComposerBase):
     def write_cell(self, row_id, col_id, cell):
         
         value, style = self.cell_to_value(cell)
-        self.sheet.write(row_id, col_id, value, style)
+        if type(cell) == model_base.ImageFieldType:
+            if cell.width:
+                self.sheet.col(col_id).width = cell.width * 256
+            if cell.height:
+                self.sheet.col(col_id).height = cell.height * 256
+            self.sheet.insert_bitmap(value, row_id, col_id)
+        else:
+            # most cases
+            self.sheet.write(row_id, col_id, value, style)
         self.done_write_cell(row_id, col_id, cell, value, style)
 
     def done_write_cell(self, row_id, col_id, cell, value, style):

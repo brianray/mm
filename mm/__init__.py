@@ -12,4 +12,6 @@ import model_base
 
 Date = model_base.DateFieldType
 URL = model_base.URLFieldType
+Image = model_base.ImageFieldType
+
 

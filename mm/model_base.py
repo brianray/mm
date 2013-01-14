@@ -50,7 +50,10 @@ class URLFieldType(BaseFieldType):
     pass
 
 class ImageFieldType(BaseFieldType):
-    pass
+    def __init__(self, path, width=None, height=None):
+        self.width = width
+        self.height = height
+        super(ImageFieldType, self).__init__(path)
 
 class NoneFieldType(BaseFieldType):
     pass
