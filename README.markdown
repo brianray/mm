@@ -60,7 +60,7 @@ my_data = [
         'msg': "My second Cell",
         'id': 2,
         'when': datetime.datetime.now(),
-        'homepage': mm.URL("http://twitter.com/brianray")
+        'homepage': mm.URL("http://twitter.com/brianray", "Tweet Me")
     },
 
 ]
@@ -94,5 +94,5 @@ Some other stuff:
 Copyright
 ---------
 
-Copyright (c) 2012 Brian Ray
+Copyright (c) 2013 Brian Ray
 
