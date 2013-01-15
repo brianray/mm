@@ -86,30 +86,45 @@ class ComposerXLS(ComposerBase):
             if cell.height:
                 self.sheet.col(col_id).height = cell.height * 256
             self.sheet.insert_bitmap(value, row_id, col_id)
+            
+        elif type(cell) == model_base.URLFieldType:
+            self.sheet.write(
+                row_id, 
+                col_id, 
+                xlwt.Formula('HYPERLINK("%s";"%s")' %(value, cell.displayname)), 
+                style
+            )
+
         else:
             # most cases
             self.sheet.write(row_id, col_id, value, style)
         self.done_write_cell(row_id, col_id, cell, value, style)
 
+   
+
     def done_write_cell(self, row_id, col_id, cell, value, style):
+
          if self.document.config.get('adjust_all_col_width', False):    
+             
+             current_width = self.sheet.col_width(col_id) + 0x0d00 
+             log.info("current width is %s" % current_width)
+             new_width = None
+
              if type(cell) == model_base.StringFieldType:
-                current_width = self.sheet.col_width(col_id)
-                log.info("current width is %s" % current_width)
                 new_width = get_string_width_from_style(value, style)
-                if new_width > current_width:
-                    log.info("setting col #%s form width %s to %s" % (col_id,current_width,new_width))
-                    col = self.sheet.col(col_id)
-                    col.width = new_width
+
              elif type(cell) == model_base.DateTimeFieldType:
-                current_width = self.sheet.col_width(col_id)
-                log.info("current width is %s" % current_width)
-                new_width = 5000 #todo: different date formats
-                if new_width > current_width:
-                    log.info("setting col #%s form width %s to %s" % (col_id,current_width,new_width))
-                    col = self.sheet.col(col_id)
-                    col.width = new_width
+                new_width =  6550 #todo: different date formats
                  
+             elif type(cell) == model_base.URLFieldType:
+                new_width = get_string_width_from_style(cell.displayname, style)
+
+             if new_width and new_width > current_width:
+                log.info("setting col #%s form width %s to %s" % (col_id,current_width,new_width))
+                col = self.sheet.col(col_id)
+                col.width = new_width
+
+                
                 
 
     def set_option(self, key):

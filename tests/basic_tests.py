@@ -39,13 +39,13 @@ class TestBasicSuite(unittest.TestCase):
                 'msg': "My first Cell",
                 'id': 1,
                 'when': mm.Date(datetime.datetime.now(), "%Y-%m-%dT%H:%M:%S"),
-            #    'homepage': mm.URL("https://github.com/brianray")
+                'homepage': mm.URL("https://github.com/brianray")
             },
             {
                 'msg': "My second Cell",
                 'id': 2,
                 'when': datetime.datetime.now(),
-                'homepage': mm.URL("http://twitter.com/brianray")
+                'homepage': mm.URL("http://twitter.com/brianray", "Tweet Tweet")
             },
 
         ]

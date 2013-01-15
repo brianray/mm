@@ -47,7 +47,12 @@ class BoolFieldType(BaseFieldType):
     pass
 
 class URLFieldType(BaseFieldType):
-    pass
+    def __init__(self, path, displayname=None):
+        if not displayname:
+            displayname = path
+        self.displayname = displayname
+        super(URLFieldType, self).__init__(path)
+
 
 class ImageFieldType(BaseFieldType):
     def __init__(self, path, width=None, height=None):
