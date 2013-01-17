@@ -13,15 +13,21 @@ class Document(DocumentWriter):
     """
 
 
-    def __init__(self, data, data_model=None, serializer_class=None, config=None):
+    def __init__(self, data, data_model=None, serializer_class=None, config=None, config_dict=None):
         """      
          data -- a dict or a list of data you wish to use for a the
                  spreadsheet
          data_model -- (optional) fields defenitions
          serializer_class -- (optional) class to use to serialize raw data
+         config -- (optional) Configuration (ConfigBase) instance
+         config_dict -- (optional) a dictionary of key/values of settings
         """
         self.data = data
-        self.config = ConfigBase(config)
+        self.config = config
+        if not self.config:
+            self.config = ConfigBase()
+        if config_dict:
+            self.config.set_dict(config_dict)
  
         # make a data model if one does not exist
         if not data_model:

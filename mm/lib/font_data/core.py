@@ -22,7 +22,9 @@ def get_character_data(font_name, char):
     font_data = get_font_data()
     font_name = font_name.replace("-","_").replace(" ","_")
     if font_name not in font_data:
-        raise Exception("no font data for font %s" % font_name)
+        font_name = font_name.capitalize()
+        if font_name not in font_data:
+            raise Exception("no font data for font %s" % font_name)
     font_set = font_data[font_name]
     if char not in font_set['values']:
         return font_set['default_width'], {} # empty kerns

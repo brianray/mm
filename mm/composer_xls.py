@@ -6,6 +6,7 @@ import logging
 import StringIO
 import model_base
 import style_base
+import color_converter
 
 log = logging.getLogger(__name__)
 
@@ -13,16 +14,73 @@ log = logging.getLogger(__name__)
 def get_string_width_from_style(char_string, style):
     point_size = style.font.height / 0x14 # convert back to points 
     font_name = style.font.name
+    if not font_name:
+        font_name = 'Arial'
     return int(get_string_width(font_name, point_size, char_string) * 50)
 
 class styleXLS(style_base.StyleBase):
 
-    font_name = "Times New Roman"
-    is_bold = False
     font_points = 12
-    text_align = xlwt.Alignment()
-    pattern = xlwt.Pattern()
-    border = xlwt.Borders()
+    
+    def get_pattern(self):
+        pattern = xlwt.Pattern()
+        pattern.pattern = 1
+        if self.background_color:
+            color = color_converter.get_closest_rgb_match(self.background_color)
+        else:
+            color = 1
+
+        pattern.pattern_fore_colour  = color
+        return pattern
+
+    def get_font_color(self):
+        color = 0
+        if self.color:
+            color = color_converter.get_closest_rgb_match(self.color)
+        return color
+
+    def get_border(self):
+        border = xlwt.Borders()
+        if False: #TODO borders
+            border.left = border.right = border.top = border.bottom = 3000
+            if self.border_color:
+                color = color_converter.get_closest_rgb_match(self.border_color) 
+                border.top_color = color
+                border.bottom_color = color
+                border.left_color = color
+                border.right_color = color
+        return border
+
+    def is_bold(self):
+        if self.font_style == 'bold':
+            return True
+        return False 
+
+    def get_font_points(self):
+        if self.font_size:
+            return self.font_size
+        return 12 # TODO: default from config?
+    
+    def get_font_name(self):
+        if not self.font_family:
+            return 'Arial'
+        return self.font_family
+
+    def get_text_align(self):
+        text_align = xlwt.Alignment()
+        # HORZ - (0-General, 1-Left, 2-Center, 3-Right, 4-Filled, 5-Justified, 6-CenterAcrossSel, 7-Distributed)
+        horz = 0
+        if self.text_align == 'center':
+            horz = 2
+        elif self.text_align == 'right':
+            horz = 3 
+        elif self.text_align == 'left':
+            horz = 1 # left
+        else:
+            log.warn("Unknown text_align %s" % self.text_align)
+
+        text_align.horz = horz
+        return text_align
 
 
 class ComposerXLS(ComposerBase):
@@ -34,19 +92,28 @@ class ComposerXLS(ComposerBase):
 
        style =  xlwt.XFStyle()
        fnt1 = xlwt.Font()
-       fnt1.name = in_style.font_name
-       fnt1.bold = in_style.is_bold
-       fnt1.height = in_style.font_points*0x14
+       fnt1.name = in_style.get_font_name()
+       fnt1.bold = in_style.is_bold()
+       fnt1.height = in_style.get_font_points() * 0x14
+       fnt1.colour_index = in_style.get_font_color()
        style.font = fnt1
-       style.alignment = in_style.text_align
-       style.pattern = in_style.pattern
-       style.borders = in_style.border
+       style.alignment = in_style.get_text_align()
+       style.pattern = in_style.get_pattern()
+       style.borders = in_style.get_border()
 
        return style
 
-    def cell_to_value(self, cell):
+    def cell_to_value(self, cell, row_id):
          
-        style = self.convert_style(self.document.config.row_styles[0])
+        if self.document.config.headers and row_id == 0:
+            css_like_style = self.document.config.header_style
+        elif  len(self.document.config.row_styles) == 0:
+            css_like_style = ''
+        else:
+            style_index = row_id % len(self.document.config.row_styles)
+            css_like_style = self.document.config.row_styles[style_index]
+
+        style = self.convert_style(css_like_style)
         
         if type(cell) == model_base.HeaderFieldType:
             style = self.convert_style(self.document.config.header_style)
@@ -79,7 +146,7 @@ class ComposerXLS(ComposerBase):
 
     def write_cell(self, row_id, col_id, cell):
         
-        value, style = self.cell_to_value(cell)
+        value, style = self.cell_to_value(cell, row_id)
         if type(cell) == model_base.ImageFieldType:
             if cell.width:
                 self.sheet.col(col_id).width = cell.width * 256
