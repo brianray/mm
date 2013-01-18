@@ -2,11 +2,11 @@ import unittest
 import datetime
 import mm
 import os
+from xlrd_helper import XLSReader
 
 path = os.path.dirname(__file__)
-
+now = datetime.datetime.now().replace(microsecond=0)
 class TestBasicSuite(unittest.TestCase):
-
 
     def test_minimal(self):
 
@@ -14,12 +14,12 @@ class TestBasicSuite(unittest.TestCase):
             {
                 'msg': "My first Cell",
                 'id': 1,
-                'when': datetime.datetime.now(),
+                'when': now,
             },
             {
                 'msg': "My second Cell",
                 'id': 2,
-                'when': datetime.datetime.now(),
+                'when': now,
             },
 
         ]
@@ -30,7 +30,28 @@ class TestBasicSuite(unittest.TestCase):
         f = open("test_doc.xls", "wb")
         f.write(str)
         f.close()
+        self.check("test_doc.xls", my_data)
 
+    def check(self, filename, my_data):
+        xls = XLSReader(filename)
+        row = 0
+        headers = []
+        for ddict in my_data:
+            col = 0
+            for header, value in ddict.items():
+                cell_type = xls.get_type(row, col)
+                cell_value = xls.get_value(row, col)
+                if row == 0:
+                   #headers
+                   headers.append(cell_value)
+                else:
+                   column_header = headers[col]
+                   data = my_data[row-1]
+                   self.assertEquals(cell_value, data[column_header])
+                   self.assertEquals(cell_type, type(data[column_header]))
+
+                col += 1
+            row += 1
         
     def test_mid_complex(self):
 
@@ -38,13 +59,13 @@ class TestBasicSuite(unittest.TestCase):
             {
                 'msg': "My first Cell",
                 'id': 1,
-                'when': mm.Date(datetime.datetime.now(), "%Y-%m-%dT%H:%M:%S"),
+                'when': mm.Date(now, "%Y-%m-%dT%H:%M:%S"),
                 'homepage': mm.URL("https://github.com/brianray")
             },
             {
                 'msg': "My second Cell",
                 'id': 2,
-                'when': datetime.datetime.now(),
+                'when': now,
                 'homepage': mm.URL("http://twitter.com/brianray", "Tweet Tweet")
             },
 
@@ -57,6 +78,7 @@ class TestBasicSuite(unittest.TestCase):
         f.write(str)
         f.close()
 
+        #TODO self.check("test_doc2.xls", my_data)
 
     def test_image(self):
 
