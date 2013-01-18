@@ -3,12 +3,16 @@ TODO
 
 Things required for intial release:
 
- * Use configs for xls styles
  * add a 'Formula' type
+ * finish boarders from styles
+ * Google integration, create a Composer
+ * Django integration, create a Serializer
+  
 
 Backlogs:
- 
- * Google integration
- * Django integration
+
+ * Handle explicit sorting
+ * Merging of cells
   
+ 
 
