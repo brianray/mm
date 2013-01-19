@@ -68,10 +68,6 @@ class CustomTestSuite(unittest.TestCase):
         f.write(str)
         f.close()
 
-
         
-
-
-
 if __name__ == "__main__":
     unittest.main()

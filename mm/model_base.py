@@ -29,7 +29,12 @@ class TimeFieldType(BaseFieldType):
     pass
 
 class DateTimeFieldType(BaseFieldType):
-    pass
+
+    def __init__(self, data):
+        if data.tzinfo:
+            data = data.replace(tzinfo=None) #excel can't handle
+        super(DateTimeFieldType, self).__init__(data)
+
 
 class IntFieldType(BaseFieldType):
     pass
@@ -92,9 +97,8 @@ class DataModel(object):
                 # add in this order it was explicitly set
                 keys = order
             else:                
-                # no order set, just sort
+                # no order set, just get
                 keys= first_data.keys()
-                keys.sort()
            
             for k in keys:
                 log.info("looking at %s ..." % data[0][k])
