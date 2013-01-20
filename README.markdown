@@ -7,6 +7,13 @@ It is xlwt and google spreadsheets on steroids.
 
 ## Marmir melts in your mouth
 
+Installing:
+
+```
+$ pip install Marmir
+
+```
+
 Talk about simple to use, wow. Marmir is just this:
 
 ``` python
