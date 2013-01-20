@@ -71,6 +71,23 @@ mm_doc.write("example.html")
 mm_doc.google_doc_publish("Username", "Pass", "Example Spreadsheet")
 ```
 
+Now for a little Django (https://www.djangoproject.com/) example:
+
+``` python
+
+from yourproject.models import TestModel
+from mm.contrib.django.data_model import DjangoDataModel
+from mm.contrib.django.grid import DjangoGrid
+
+django_query_set = TestModel.objects.all()
+mm_doc = mm.Document(django_query_set, 
+              data_model_class=DjangoDataModel, 
+              grid_class=DjangoGrid)
+mm_doc.write("django_example.xls")
+
+
+```
+
 There is a lot more. Check out the unit tests.
 
 ## ... Not in your hand
