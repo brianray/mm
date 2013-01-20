@@ -1,7 +1,7 @@
 Marmir is powerful and fun
 ==========================
 
-Marmir takes Python data structures and turns them into spreadsheets.
+[Marmir](http://brianray.github.com/mm/) takes Python data structures and turns them into spreadsheets.
 
 It is xlwt and google spreadsheets on steroids.
 
