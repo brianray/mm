@@ -110,6 +110,7 @@ class DataModel(object):
 
                 # we add it to the 'class' so to be
                 # used in every instance
+                field_type_class = type('newclass%s' % k, (field_type_class,), dict()) #stop-gap fix
                 field_type_class.header_title = k
                 self.field_headers.append(field_type_class)
                 log.info("created field type %s for %s" %(field_type_class,k))
