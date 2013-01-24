@@ -20,7 +20,8 @@ class Document(DocumentWriter):
                     grid_class=None,
                     serializer_class=None, 
                     config=None, 
-                    config_dict=None):
+                    config_dict=None,
+                    order=None):
         """      
          data -- a dict or a list of data you wish to use for a the
                  spreadsheet
@@ -42,7 +43,7 @@ class Document(DocumentWriter):
         if not data_model_class:
             self.data_model_class = DataModel
 
-        self.data_model = self.data_model_class(data)
+        self.data_model = self.data_model_class(data, order=order)
 
         # grid base 
         if not grid_class:
