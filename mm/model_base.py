@@ -31,7 +31,7 @@ class TimeFieldType(BaseFieldType):
 class DateTimeFieldType(BaseFieldType):
 
     def __init__(self, data):
-        if data.tzinfo:
+        if data and data.tzinfo:
             data = data.replace(tzinfo=None) #excel can't handle
         super(DateTimeFieldType, self).__init__(data)
 
