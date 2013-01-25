@@ -84,7 +84,7 @@ class TestBasicSuite(unittest.TestCase):
 
         my_data = [ 
             {
-                'profile': mm.Image(path+"/author.bmp", 230, 326)
+                'profile': mm.Image(os.path.join(path, "author.bmp"), 230, 326)
             },
         ]
         mm_doc = mm.Document(my_data)
