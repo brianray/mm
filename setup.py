@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='Marmir',
-    version="0.1",
+    version="0.1.1",
     description='Marmir: makes spreadsheets easy',
     author='Brian Ray',
     author_email='brianhray@gmail.com',
