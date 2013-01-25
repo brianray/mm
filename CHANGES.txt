@@ -1,2 +1,10 @@
 v0.1, 2013-01-20 -- Initial Release
+v0.1.1, 2013-01-25 -- Bug fixes
+
+ * style compression .bmp path in tests, style_compression, check if date exists, included lib package in setup thx https://github.com/mbraak
+ * added order argument, pointed out defect with duplicate column types https://github.com/Alexandre-D
+ * fixes for max column widths https://github.com/python-excel/xlwt/issues/10
+ * sepreated field titles out
+ 
+
 
