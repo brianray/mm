@@ -1,11 +1,9 @@
-from datetime import datetime
 import logging
-
-from mm.lib.font_data.decorators import memoized
 from mm import model_base
 import django.db.models.fields as fields
 
 log = logging.getLogger(__name__)
+
 
 class DjangoDataModel(object):
     """ Data Model creates a list of system defined data types in self.field_headers"""
@@ -14,26 +12,26 @@ class DjangoDataModel(object):
         """ constructor takes data as a tuple or list"""
 
         self.field_headers = []
+        self.field_titles = []
         if data.count() == 0:
             raise Exception("Can not make spreadsheets with an empty set")
         first_data = data[0]
 
         header_types = {}
-        for f in first_data._meta.fields: # TODO: + obj._meta.many_to_many
+        for f in first_data._meta.fields:  # TODO: + obj._meta.many_to_many
             header_types[f.name] = self.figure_out_type(f)
 
         #TODO: 'if order' sort the list
 
         # assign data
-        for verbose_name,field_type_class in header_types.items():
+        for verbose_name, field_type_class in header_types.items():
 
             # we add it to the 'class' so to be
             # used in every instance
-            field_type_class.header_title = verbose_name
+            self.field_titles.append(verbose_name)
             self.field_headers.append(field_type_class)
-            log.info("created field type %s for %s" %(field_type_class, verbose_name))
+            log.info("created field type %s for %s" % (field_type_class, verbose_name))
 
-                    
     def __serialize(obj):
         obj._meta.fields
 
@@ -53,15 +51,14 @@ class DjangoDataModel(object):
             fields.PositiveIntegerField,
             fields.PositiveSmallIntegerField,
             fields.SmallIntegerField,
-            
+
         ]
 
     def _bool_types(self):
         return [
             fields.BooleanField,
             fields.NullBooleanField,
-
-         ]
+        ]
 
     def _date_types(self):
         return [
@@ -97,8 +94,8 @@ class DjangoDataModel(object):
         return [
             fields.URLField
         ]
-    
-    def type_mapping(self):  
+
+    def type_mapping(self):
         return (
             (self._string_types, model_base.StringFieldType),
             (self._int_types, model_base.IntFieldType),
@@ -137,7 +134,7 @@ This is how django stores types in sqlite3:
 "TimeField" time NOT NULL,
 "URLField" varchar(100) NOT NULL
         """
-        item_type= type(item)
+        item_type = type(item)
         for func, mm_type in self.type_mapping():
             if item_type in func():
                 return mm_type

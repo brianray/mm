@@ -18,6 +18,7 @@ class Serializer(object):
         field_headers =  self.data_model.field_headers
         grid.col_count = len(field_headers)
         grid.headers = field_headers 
+        grid.titles = self.data_model.field_titles
         grid.populate(self.data)
 
         return grid

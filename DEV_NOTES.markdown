@@ -87,6 +87,9 @@ Wether or not headers are written is dependent on your config you pass in to Doc
 SuppressDebuggerExceptionDialogs=1
 
 
+# Running Tests #
+
+python -m unittest discover tests '*_tests.py'
 
 
 
