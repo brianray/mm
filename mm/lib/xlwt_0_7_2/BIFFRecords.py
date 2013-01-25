@@ -1622,7 +1622,11 @@ class ColInfoRecord(BiffRecord):
     _REC_ID = 0x007D
 
     def __init__(self, first_col, last_col, width, xf_index, options):
-        self._rec_data = pack('<6H', first_col, last_col, width, xf_index, options, 0)
+        try:
+            self._rec_data = pack('<6H', first_col, last_col, width, xf_index, options, 0)
+        except Exception,e:
+
+            import pdb; pdb.set_trace()
 
 class CalcModeRecord(BiffRecord):
     """

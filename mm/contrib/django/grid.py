@@ -20,7 +20,6 @@ class DjangoGrid(object):
             for col_id in range(self.col_count):
                 field_type_class = self.headers[col_id]
                 data = getattr(row, self.titles[col_id])
-                print data
                 self.grid_data[row_id][col_id] = field_type_class(data)
 
                 #Ilport pdb; pdb.set_trace()

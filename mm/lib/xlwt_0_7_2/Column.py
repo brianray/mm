@@ -2,6 +2,9 @@
 
 from BIFFRecords import ColInfoRecord
 
+USHRT_MAX = 65535
+
+
 class Column(object):
     def __init__(self, colx, parent_sheet):
         if not(isinstance(colx, int) and 0 <= colx <= 255):
@@ -24,11 +27,20 @@ class Column(object):
         return int(round(self.width * 0.0272 + 0.446, 0))
 
     def get_biff_record(self):
-        options =  (self.hidden & 0x01) << 0
+        options = (self.hidden & 0x01) << 0
         options |= (self.level & 0x07) << 8
         options |= (self.collapse & 0x01) << 12
 
         return ColInfoRecord(self._index, self._index, self.width, self._xf_index, options).get()
 
+    def set_width(self, width):
+        # see https://github.com/python-excel/xlwt/issues/10
+        if width > USHRT_MAX:
+            raise ValueError(
+                'width must be <= USHRT_MAX: %d > %d' % (width, USHRT_MAX))
+        self._width = width
 
+    def get_width(self):
+        return self._width
 
+    width = property(get_width, set_width)
