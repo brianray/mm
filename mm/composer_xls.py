@@ -216,7 +216,7 @@ class ComposerXLS(ComposerBase):
 
     def run(self):
            
-        self.w = xlwt.Workbook()        
+        self.w = xlwt.Workbook(style_compression=2)
         self.sheet = self.w.add_sheet('Sheet 1')
         if self.document.config.headers:
             self.write_header()
