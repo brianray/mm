@@ -13,6 +13,10 @@ class GridBase(object):
         # create a grid
         self.grid_data = [[None] * self.col_count for i in range(self.row_count)]
 
+        using_lists = False  # support for lists #2
+        if type(indata[0]) != dict:
+            using_lists = True
+
         # now populate
         # this is pass one
         # want to do as much processing here as we can
@@ -22,7 +26,10 @@ class GridBase(object):
                 field_type_class = self.headers[col_id]
 
                 # headers from seelf.data_model.field_headers, sorted
-                data = indata[row_id][self.titles[col_id]]  # direct data access
+                if using_lists:
+                    data = indata[row_id][col_id]  # direct data access lists
+                else:
+                    data = indata[row_id][self.titles[col_id]]  # direct data access dicts
                 if is_custom_mm_type(data):
                     # explicit type
                     self.grid_data[row_id][col_id] = data

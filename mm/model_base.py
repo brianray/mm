@@ -105,7 +105,25 @@ class DataModel(object):
         if len(data) == 0:
             raise Exception("Can not make spreadsheets with an empty set")
         first_data = data[0]
-        if type(first_data) == dict and len(first_data) > 0:
+        if type(data[0]) != dict:
+            # they sent a list #2
+            if not order:
+                raise Exception("use 'order' to set headers")
+            self.field_titles = order
+            for i in range(len(self.field_titles)):
+                log.info("looking at %s ..." % data[0][i])
+                if is_custom_mm_type(data[0][i]):
+                    field_type_class = type(data[0][i])
+                else:
+                    # we figure out the type
+                    field_type_class = self.figure_out_type(data[0][i])
+
+                # we add it to the 'class' so to be
+                # used in every instance
+                self.field_headers.append(field_type_class)
+                log.info("created field type %s for column %s" % (field_type_class, i))
+
+        elif type(first_data) == dict and len(first_data) > 0:
             if order:
                 # add in this order it was explicitly set
                 self.field_titles = order

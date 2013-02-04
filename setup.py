@@ -9,7 +9,7 @@ setup(
     author_email='brianhray@gmail.com',
     maintainer='Brian Ray',
     maintainer_email='brianhray@gmail.com',
-    url='https://github.com/brianray/mm',
+    url='http://brianray.github.com/mm',
     long_description="Python power spreadsheets on steroids",
     #      license="Brian Ray", TBD
     platforms=["any"],
