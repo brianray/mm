@@ -11,7 +11,6 @@ Installing:
 
 ```
 $ pip install Marmir
-
 ```
 
 Talk about simple to use, wow. Marmir is just this:
@@ -21,21 +20,34 @@ Talk about simple to use, wow. Marmir is just this:
 import datetime
 import mm
 
+now = datetime.datetime.now().replace(microsecond=0)
+
 my_data = [ 
     {
         'msg': "My first Row",
         'id': 1,
-        'when': datetime.datetime.now(),
+        'when': now,
     },
     {
         'msg': "My second Row",
         'id': 2,
-        'when': datetime.datetime.now(),
+        'when': now,
     },
 
 ]
 
 mm_doc = mm.Document(my_data)
+mm_doc.write("example.xls")
+```
+Same example above as lists (also node the 'order' argument works in the above as well:
+```python
+my_headers = ('id', 'msg', 'when')
+my_data = (
+    (1, "My First Row", now),
+    (2, "My Second Row", now)   
+)
+
+mm_doc = mm.Document(mydata, order=my_headers)
 mm_doc.write("example.xls")
 ```
 Or you can get fancier:
