@@ -119,8 +119,8 @@ Brian Ray [@brianray](http://twitter.com/brianray) wrote Marmir. Brian: is the o
 2011); been professionaly developing software for business for 15 years ; and
 is sick of sub-par Python libraries for creating business spreadsheets.
 
-The name Marmir name from cabining parts of the names Maura and Miranda,
-Brian's girls and who this software is deadicated.
+The name Marmir name from parts of the names Maura and Miranda, the author's girls.
+
 
 Copyright
 ---------
