@@ -73,7 +73,7 @@ my_data = [
 ]
 
 mm_doc = mm.Document(my_data)
-mm_doc.write("example.html")
+mm_doc.write("example.xls")
 
 # also you can publish to google spreadsheats
 mm_doc.write_gdata("Example Spreadsheet", "Username", "Pass")
