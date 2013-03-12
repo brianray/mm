@@ -1,9 +1,11 @@
 from setuptools import setup, find_packages
 
+import mm
+
 
 setup(
     name='Marmir',
-    version="0.1.1",
+    version=mm.__version__,
     description='Marmir: makes spreadsheets easy',
     author='Brian Ray',
     author_email='brianhray@gmail.com',
