@@ -98,8 +98,18 @@ def is_custom_mm_type(inst):
 class DataModel(object):
     """ Data Model creates a list of system defined data types in self.field_headers"""
 
-    def __init__(self, data, order=None):
+    def __init__(self, data, order=None, column_types=None):
         """ constructor takes data as a tuple or list"""
+
+        def get_field_type_class(title, value):
+            if column_types and title in column_types:
+                return column_types[title]
+            elif is_custom_mm_type(value):
+                return type(value)
+            else:
+                # we figure out the type
+                return self.figure_out_type(value)
+
         self.field_headers = []
         self.field_titles = []
         if len(data) == 0:
@@ -112,11 +122,8 @@ class DataModel(object):
             self.field_titles = order
             for i in range(len(self.field_titles)):
                 log.info("looking at %s ..." % data[0][i])
-                if is_custom_mm_type(data[0][i]):
-                    field_type_class = type(data[0][i])
-                else:
-                    # we figure out the type
-                    field_type_class = self.figure_out_type(data[0][i])
+
+                field_type_class = get_field_type_class(i, data[0][i])
 
                 # we add it to the 'class' so to be
                 # used in every instance
@@ -133,11 +140,8 @@ class DataModel(object):
 
             for k in self.field_titles:
                 log.info("looking at %s ..." % data[0][k])
-                if is_custom_mm_type(data[0][k]):
-                    field_type_class = type(data[0][k])
-                else:
-                    # we figure out the type
-                    field_type_class = self.figure_out_type(data[0][k])
+
+                field_type_class = get_field_type_class(k, data[0][k])
 
                 # we add it to the 'class' so to be
                 # used in every instance
