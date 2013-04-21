@@ -207,19 +207,28 @@ class ComposerXLS(ComposerBase):
             return
         log.info("Set option %s" % key)
 
-    def run(self):
-
-        self.w = xlwt.Workbook(style_compression=2)
-        self.sheet = self.w.add_sheet('Sheet 1')
+    def run(self, child=None):
+        top = False
+        if not child:
+            self.w = xlwt.Workbook(style_compression=2)
+            top = True
+        else:
+            self.w = child
+        self.sheet = self.w.add_sheet(self.document.name or "Sheet 1")
         if self.document.config.headers:
             self.write_header()
         self.iterate_grid()
         self.finish()
 
-        # write the file to string
-        output = StringIO.StringIO()
-        self.w.save(output)
-        contents = output.getvalue()
-        output.close()
+        # process any childern
+        for doc_child in self.document.children:
+            doc_child.writestr(child=self.w)
 
-        return contents
+        if top:
+            # write the file to string
+            output = StringIO.StringIO()
+            self.w.save(output)
+            contents = output.getvalue()
+            output.close()
+
+            return contents

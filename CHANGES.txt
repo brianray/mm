@@ -5,6 +5,9 @@ v0.1.1, 2013-01-25 -- Bug fixes
  * added order argument, pointed out defect with duplicate column types https://github.com/Alexandre-D
  * fixes for max column widths https://github.com/python-excel/xlwt/issues/10
  * sepreated field titles out
- 
+v0.1.2, 
+v0.1.3, 2013-04-21 
+
+ * Child (multi) spreadsheet support
 
 

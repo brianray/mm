@@ -35,6 +35,8 @@ class Document(DocumentWriter):
         """
         self.data = data
         self.config = config
+        self.name = None
+        self.children = []
         if not self.config:
             self.config = ConfigBase()
         if config_dict:
@@ -69,3 +71,9 @@ class Document(DocumentWriter):
 
     def set_composer(self, composer):
         self.composer = composer
+
+    def set_name(self, name):
+        self.name = name
+
+    def add_child(self, document):
+        self.children.append(document)
