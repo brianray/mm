@@ -5,7 +5,7 @@ Index of Marmir Examples
 
 * [including images](/tests/basic_tests.py#L106-L120)
 * [explicitly defining column data types](/tests/basic_tests.py#L106-L120)
-* [Multiple Sheets - child spreadsheets](/tests/gdata_tests.py#L21-L45)
+* [Multiple Sheets - child spreadsheets](/tests/multi_sheets.py#L13-L40)
 * [Custom Date Formats](/tests/api_tests.py#L8)
 
 ## Styles
