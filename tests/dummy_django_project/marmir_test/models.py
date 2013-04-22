@@ -13,7 +13,7 @@ class TestAllBaseTypes(models.Model):
     #FileField = models.FileField()
     #FilePathField = models.FilePathField()
     FloatField = models.FloatField() # float
-    #ImageField = models.ImageField() 
+    #ImageField = models.ImageField()
     IntegerField = models.IntegerField() # int
     IPAddressField = models.IPAddressField() # unicode
     NullBooleanField = models.NullBooleanField() # bool
@@ -23,7 +23,7 @@ class TestAllBaseTypes(models.Model):
     SmallIntegerField = models.SmallIntegerField() # int
     TextField = models.TextField() # unicode
     TimeField = models.TimeField(auto_now_add=True) # datetime.time
-    URLField = models.URLField(verify_exists=False,max_length=100) # unicode
+    URLField = models.URLField(max_length=100) # unicode
     #XMLField = models.XMLField()
     def __unicode__(self):
         return u"%s" % (self.CharField)
