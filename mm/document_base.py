@@ -21,7 +21,8 @@ class Document(DocumentWriter):
             serializer_class=None,
             config=None,
             config_dict=None,
-            order=None):
+            order=None,
+            column_types=None):
         """
          data -- a dict or a list of data you wish to use for a the
                  spreadsheet
@@ -31,6 +32,7 @@ class Document(DocumentWriter):
          config -- (optional) Configuration (ConfigBase) instance
          config_dict -- (optional) a dictionary of key/values of settings
          order -- (optional) also headers
+         column_types -- (optional) a dictionary of column types; e.g. column_name1 is a date column:  {'column_name1', mm.Date)
 
         """
         self.data = data
@@ -47,7 +49,7 @@ class Document(DocumentWriter):
         if not data_model_class:
             self.data_model_class = DataModel
 
-        self.data_model = self.data_model_class(data, order=order)
+        self.data_model = self.data_model_class(data, order=order, column_types=column_types)
 
         # grid base
         if not grid_class:

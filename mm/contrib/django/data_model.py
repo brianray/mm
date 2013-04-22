@@ -8,7 +8,7 @@ log = logging.getLogger(__name__)
 class DjangoDataModel(object):
     """ Data Model creates a list of system defined data types in self.field_headers"""
 
-    def __init__(self, data, order=None):
+    def __init__(self, data, order=None, column_types=None):
         """ constructor takes data as a tuple or list"""
 
         self.field_headers = []
