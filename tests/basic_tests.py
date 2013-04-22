@@ -39,8 +39,8 @@ class TestBasicSuite(unittest.TestCase):
 
         my_headers = ('id', 'msg', 'when')
         my_data = (
-            (1, "My First Row", now),
-            (2, "My Second Row", now),
+            (1, "my first row", now),
+            (2, "my second row", now),
         )
 
         mm_doc = mm.Document(my_data, order=my_headers)
@@ -118,6 +118,21 @@ class TestBasicSuite(unittest.TestCase):
         f = open("test_doc_image.xls", "wb")
         f.write(str)
 
+    def test_col_type(self):
+
+        my_data = [
+            {
+                'date': "2003-01-01"
+            },
+        ]
+        col_types = {'date': mm.Date}
+        mm_doc = mm.Document(my_data, column_types=col_types)
+        str = mm_doc.writestr()
+        self.assertTrue(
+            len(str) > 10,
+            msg="String should be longer than %s" % len(str))
+        f = open("test_col_types.xls", "wb")
+        f.write(str)
 
 if __name__ == "__main__":
     unittest.main()
