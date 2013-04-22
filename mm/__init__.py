@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 
-__version__ = "0.10"
+__version__ = "0.1.3"
 __author__ = [
     "Brian Ray <brianhray@gmail.com>",
 ]
