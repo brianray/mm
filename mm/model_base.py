@@ -2,6 +2,7 @@ import logging
 from datetime import datetime
 import inspect
 import sys
+from types import NoneType
 from lib.font_data.decorators import memoized
 
 log = logging.getLogger(__name__)
@@ -154,6 +155,12 @@ class DataModel(object):
 
         elif item_type == datetime:
             return DateTimeFieldType
+
+        elif item_type == bool:
+            return BoolFieldType
+
+        elif item_type == NoneType:
+            return NoneFieldType
 
         log.warn("Returning None type for type %s" % item_type)
         return NoneFieldType
