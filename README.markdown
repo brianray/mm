@@ -47,7 +47,7 @@ my_data = (
     (2, "My Second Row", now)   
 )
 
-mm_doc = mm.Document(mydata, order=my_headers)
+mm_doc = mm.Document(my_data, order=my_headers)
 mm_doc.write("example.xls")
 ```
 Or you can get fancier:
@@ -94,7 +94,7 @@ mm_doc = mm.Document(django_query_set,
 mm_doc.write("django_example.xls")
 ```
 
-There is a lot more. Check out the [Examples](./EXAMPLES.markdown).
+There is a lot more. Check out the [Examples](https://github.com/brianray/mm/blob/master/EXAMPLES.markdown).
 
 ## ... Not in your hand
 
