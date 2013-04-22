@@ -77,7 +77,7 @@ class styleXLS(style_base.StyleBase):
             horz = 3
         elif self.text_align == 'left':
             horz = 1  # left
-        else:
+        elif self.text_align != None:
             log.warn("Unknown text_align %s" % self.text_align)
 
         text_align.horz = horz
