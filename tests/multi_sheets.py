@@ -8,7 +8,7 @@ path = os.path.dirname(__file__)
 now = datetime.datetime.now().replace(microsecond=0)
 
 
-class TestBasicSuite(unittest.TestCase):
+class TestMultiSuite(unittest.TestCase):
 
     def test_minimal(self):
 
