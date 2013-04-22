@@ -94,7 +94,7 @@ mm_doc = mm.Document(django_query_set,
 mm_doc.write("django_example.xls")
 ```
 
-There is a lot more. Check out the [Examples](EXAMPLES.markdown).
+There is a lot more. Check out the [Examples](./EXAMPLES.markdown).
 
 ## ... Not in your hand
 
