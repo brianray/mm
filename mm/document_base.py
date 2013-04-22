@@ -32,7 +32,7 @@ class Document(DocumentWriter):
          config -- (optional) Configuration (ConfigBase) instance
          config_dict -- (optional) a dictionary of key/values of settings
          order -- (optional) also headers
-         column_types -- (optional) a dictionary of column types; e.g. column_name1 is a date column:  {'column_name1', mm.Date)
+         column_types -- (optional) a dictionary of column types; e.g. column_name1 is a date column:  {'column_name1': mm.Date)
 
         """
         self.data = data
