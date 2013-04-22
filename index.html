@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=640" />
+
+    <link rel="stylesheet" href="stylesheets/core.css" media="screen"/>
+    <link rel="stylesheet" href="stylesheets/mobile.css" media="handheld, only screen and (max-device-width:640px)"/>
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css"/>
+
+    <script type="text/javascript" src="javascripts/modernizr.js"></script>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script type="text/javascript" src="javascripts/headsmart.min.js"></script>
+    <script type="text/javascript">
+      $(document).ready(function () {
+        $('#main_content').headsmart()
+      })
+    </script>
+    <title>Mm by brianray</title>
+  </head>
+
+  <body>
+    <a id="forkme_banner" href="https://github.com/brianray/mm">View on GitHub</a>
+    <div class="shell">
+
+      <header>
+        <span class="ribbon-outer">
+          <span class="ribbon-inner">
+            <h1>Mm</h1>
+            <h2>Python powered spreadsheets</h2>
+          </span>
+          <span class="left-tail"></span>
+          <span class="right-tail"></span>
+        </span>
+      </header>
+
+      <section id="downloads">
+        <span class="inner">
+          <a href="https://github.com/brianray/mm/zipball/master" class="zip"><em>download</em> .ZIP</a><a href="https://github.com/brianray/mm/tarball/master" class="tgz"><em>download</em> .TGZ</a>
+        </span>
+      </section>
+
+
+      <span class="banner-fix"></span>
+
+
+      <section id="main_content">
+        <h1>Marmir is powerful and fun</h1>
+
+<p><a href="http://brianray.github.com/mm/">Marmir</a> takes Python data structures and turns them into spreadsheets.</p>
+
+<p>It is xlwt and google spreadsheets on steroids.</p>
+
+<h2>Marmir melts in your mouth</h2>
+
+<p>Installing:</p>
+
+<pre><code>$ pip install Marmir
+</code></pre>
+
+<p>Talk about simple to use, wow. Marmir is just this:</p>
+
+<div class="highlight"><pre>
+<span class="kn">import</span> <span class="nn">datetime</span>
+<span class="kn">import</span> <span class="nn">mm</span>
+
+<span class="n">now</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">microsecond</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="n">my_data</span> <span class="o">=</span> <span class="p">[</span> 
+    <span class="p">{</span>
+        <span class="s">'msg'</span><span class="p">:</span> <span class="s">"My first Row"</span><span class="p">,</span>
+        <span class="s">'id'</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="s">'when'</span><span class="p">:</span> <span class="n">now</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+        <span class="s">'msg'</span><span class="p">:</span> <span class="s">"My second Row"</span><span class="p">,</span>
+        <span class="s">'id'</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+        <span class="s">'when'</span><span class="p">:</span> <span class="n">now</span><span class="p">,</span>
+    <span class="p">},</span>
+
+<span class="p">]</span>
+
+<span class="n">mm_doc</span> <span class="o">=</span> <span class="n">mm</span><span class="o">.</span><span class="n">Document</span><span class="p">(</span><span class="n">my_data</span><span class="p">)</span>
+<span class="n">mm_doc</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">"example.xls"</span><span class="p">)</span>
+</pre></div>
+
+<p>Same example above as lists (also node the 'order' argument works in the above as well:</p>
+
+<div class="highlight"><pre><span class="n">my_headers</span> <span class="o">=</span> <span class="p">(</span><span class="s">'id'</span><span class="p">,</span> <span class="s">'msg'</span><span class="p">,</span> <span class="s">'when'</span><span class="p">)</span>
+<span class="n">my_data</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s">"My First Row"</span><span class="p">,</span> <span class="n">now</span><span class="p">),</span>
+    <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="s">"My Second Row"</span><span class="p">,</span> <span class="n">now</span><span class="p">)</span>   
+<span class="p">)</span>
+
+<span class="n">mm_doc</span> <span class="o">=</span> <span class="n">mm</span><span class="o">.</span><span class="n">Document</span><span class="p">(</span><span class="n">mydata</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="n">my_headers</span><span class="p">)</span>
+<span class="n">mm_doc</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">"example.xls"</span><span class="p">)</span>
+</pre></div>
+
+<p>Or you can get fancier:</p>
+
+<div class="highlight"><pre><span class="kn">import</span> <span class="nn">datetime</span>
+<span class="kn">import</span> <span class="nn">mm</span>
+
+<span class="n">my_data</span> <span class="o">=</span> <span class="p">[</span> 
+    <span class="p">{</span>
+        <span class="s">'msg'</span><span class="p">:</span> <span class="s">"My first Row"</span><span class="p">,</span>
+        <span class="s">'id'</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="s">'when'</span><span class="p">:</span> <span class="n">mm</span><span class="o">.</span><span class="n">Date</span><span class="p">(</span><span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">(),</span> <span class="s">"%Y-%m-</span><span class="si">%d</span><span class="s">T%H:%M:%S"</span><span class="p">),</span>
+        <span class="s">'homepage'</span><span class="p">:</span> <span class="n">mm</span><span class="o">.</span><span class="n">URL</span><span class="p">(</span><span class="s">"https://github.com/brianray"</span><span class="p">)</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+        <span class="s">'msg'</span><span class="p">:</span> <span class="s">"My second Row"</span><span class="p">,</span>
+        <span class="s">'id'</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+        <span class="s">'when'</span><span class="p">:</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">(),</span>
+        <span class="s">'homepage'</span><span class="p">:</span> <span class="n">mm</span><span class="o">.</span><span class="n">URL</span><span class="p">(</span><span class="s">"http://twitter.com/brianray"</span><span class="p">,</span> <span class="s">"Tweet Me"</span><span class="p">)</span>
+    <span class="p">},</span>
+
+<span class="p">]</span>
+
+<span class="n">mm_doc</span> <span class="o">=</span> <span class="n">mm</span><span class="o">.</span><span class="n">Document</span><span class="p">(</span><span class="n">my_data</span><span class="p">)</span>
+<span class="n">mm_doc</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">"example.xls"</span><span class="p">)</span>
+
+<span class="c"># also you can publish to google spreadsheats</span>
+<span class="n">mm_doc</span><span class="o">.</span><span class="n">write_gdata</span><span class="p">(</span><span class="s">"Example Spreadsheet"</span><span class="p">,</span> <span class="s">"Username"</span><span class="p">,</span> <span class="s">"Pass"</span><span class="p">)</span>
+</pre></div>
+
+<p>Now for a little Django (<a href="https://www.djangoproject.com/">https://www.djangoproject.com/</a>) example:</p>
+
+<div class="highlight"><pre>
+<span class="kn">from</span> <span class="nn">yourproject.models</span> <span class="kn">import</span> <span class="n">TestModel</span>
+<span class="kn">from</span> <span class="nn">mm.contrib.django.data_model</span> <span class="kn">import</span> <span class="n">DjangoDataModel</span>
+<span class="kn">from</span> <span class="nn">mm.contrib.django.grid</span> <span class="kn">import</span> <span class="n">DjangoGrid</span>
+
+<span class="n">django_query_set</span> <span class="o">=</span> <span class="n">TestModel</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+<span class="n">mm_doc</span> <span class="o">=</span> <span class="n">mm</span><span class="o">.</span><span class="n">Document</span><span class="p">(</span><span class="n">django_query_set</span><span class="p">,</span> 
+              <span class="n">data_model_class</span><span class="o">=</span><span class="n">DjangoDataModel</span><span class="p">,</span> 
+              <span class="n">grid_class</span><span class="o">=</span><span class="n">DjangoGrid</span><span class="p">)</span>
+<span class="n">mm_doc</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">"django_example.xls"</span><span class="p">)</span>
+</pre></div>
+
+<p>There is a lot more. Check out the <a href="EXAMPLES.markdown">Examples</a>.</p>
+
+<h2>... Not in your hand</h2>
+
+<p>So the primary goals are:</p>
+
+<ul>
+<li>make XLS spreadsheets better than xlwt</li>
+<li>Create Spreadsheets in Google Docs</li>
+<li>convert python types automagically, date is a date, int is a int, string is a string, ...</li>
+<li>do stuff you expect like make columns wider to fit, wrap in some cases</li>
+<li>make stuff pretty colors and easier to read</li>
+<li>generate directy fron Django queries</li>
+</ul><p>Some other stuff:</p>
+
+<ul>
+<li>do summaries and break out tables</li>
+<li>add logic and math functions </li>
+</ul><h2>Marmir is written with love</h2>
+
+<p>Brian Ray <a href="http://twitter.com/brianray">@brianray</a> wrote Marmir. Brian: is the organizer of ChiPy
+(<a href="http://chipy.org">http://chipy.org</a>); one of the top 25 tech in Chicago (according to Crains Oct
+2011); been professionaly developing software for business for 15 years ; and
+is sick of sub-par Python libraries for creating business spreadsheets.</p>
+
+<p>The name Marmir name from parts of the names Maura and Miranda, the author's girls.</p>
+
+<h2>Copyright</h2>
+
+<p>Copyright (c) 2013 Brian Ray</p>
+      </section>
+
+      <footer>
+        <span class="ribbon-outer">
+          <span class="ribbon-inner">
+            <p>this project by <a href="https://github.com/brianray">brianray</a> can be found on <a href="https://github.com/brianray/mm">GitHub</a></p>
+          </span>
+          <span class="left-tail"></span>
+          <span class="right-tail"></span>
+        </span>
+        <p>Generated with <a href="http://pages.github.com">GitHub Pages</a> using Merlot</p>
+        <span class="octocat"></span>
+      </footer>
+
+    </div>
+
+    
+  </body>
+</html>
