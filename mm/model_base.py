@@ -116,7 +116,7 @@ class DataModel(object):
         if len(data) == 0:
             raise Exception("Can not make spreadsheets with an empty set")
         first_data = data[0]
-        if type(data[0]) != dict:
+        if type(data[0]) != dict and not hasattr(data[0], "iteritems"):
             # they sent a list #2
             if not order:
                 raise Exception("use 'order' to set headers")
@@ -131,7 +131,7 @@ class DataModel(object):
                 self.field_headers.append(field_type_class)
                 log.info("created field type %s for column %s" % (field_type_class, i))
 
-        elif type(first_data) == dict and len(first_data) > 0:
+        elif hasattr(first_data, "iteritems") and len(first_data) > 0:
             if order:
                 # add in this order it was explicitly set
                 self.field_titles = order
@@ -163,7 +163,7 @@ class DataModel(object):
         elif item_type == bool:
             return BoolFieldType
 
-        elif item_type == NoneType:
+        elif item_type == NoneType:  # NOQA
             return NoneFieldType
 
         log.warn("Returning None type for type %s" % item_type)
