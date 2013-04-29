@@ -15,12 +15,17 @@ except ImportError:
 class PsycopgTestSuite(unittest.TestCase):
 
     def setUp(self):
+        if no_psycopg:
+            return
+
         self.conn = psycopg2.connect("dbname='template1' user='testuser' host='localhost' password='password'")
         dict_cur = self.conn.cursor()
         dict_cur.execute("CREATE TABLE marmir_test (num INT, data CHAR(12))")
         dict_cur.close()
 
     def tearDown(self):
+        if no_psycopg:
+            return
         dict_cur = self.conn.cursor()
         dict_cur.execute("DROP TABLE marmir_test;")
         dict_cur.close()
