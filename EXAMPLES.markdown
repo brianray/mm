@@ -19,5 +19,7 @@ Index of Marmir Examples
 * [Django Extension](tests/django_tests.py#L32-L40)
 * [Writing to Google Data gdata](tests/gdata_tests.py#L21-L45)
 * [Working with Psycopg cursor results sets](tests/psycopg2_tests.py#L34-L43)
+* [Output Tables as Text](tests/pretty_table_tests.py#L25-L49)
+
 
 
