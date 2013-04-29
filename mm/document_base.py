@@ -71,6 +71,9 @@ class Document(DocumentWriter):
 
         log.info("Documnet Created")
 
+    def set_composer_class(self, composer_class):
+        self.composer_class = composer_class
+
     def set_composer(self, composer):
         self.composer = composer
 
