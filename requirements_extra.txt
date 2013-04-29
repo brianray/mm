@@ -1,0 +1,3 @@
+gdata==2.0.17
+prettytable==0.7.2
+
