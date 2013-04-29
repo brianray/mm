@@ -1,4 +1,5 @@
 from composer_xls import ComposerXLS
+from mm.contrib.prettytable.composers import ComposerPrettyTable, pretty_table
 
 import os
 import tempfile
@@ -10,14 +11,16 @@ log = logging.getLogger(__name__)
 class DocumentWriter(object):
     "runs a composer"
 
+    composer_class = None
     composer = None
 
     def writestr(self, child=False):
-        if not self.composer:
+        composer_class = self.composer_class
+        if not composer_class:
             # default format is XLS
-            self.composer = ComposerXLS(self.data_model, self.grid, self)
+            composer_class = ComposerXLS
             log.info("Setting output format to XLS")
-
+        self.composer = composer_class(self.data_model, self.grid, self)
         return self.composer.run(child=child)
 
     def write(self, filename):
@@ -25,6 +28,9 @@ class DocumentWriter(object):
         if ext == "xls":
             self.composer = ComposerXLS(self.data_model, self.grid, self)
             log.info("Setting output format to XLS, based on file extension")
+        elif ext == "txt" and pretty_table:
+            self.composer = ComposerPrettyTable(self.data_model, self.grid, self)
+            log.info("Setting output format to TXT, based on file extension")
 
         f = open(filename, "w")
         f.write(self.writestr())
