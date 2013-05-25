@@ -1,56 +1,50 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
   <head>
-    <meta charset='utf-8'>
+    <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <meta name="viewport" content="width=640" />
-
-    <link rel="stylesheet" href="stylesheets/core.css" media="screen"/>
-    <link rel="stylesheet" href="stylesheets/mobile.css" media="handheld, only screen and (max-device-width:640px)"/>
-    <link rel="stylesheet" href="stylesheets/pygment_trac.css"/>
-
-    <script type="text/javascript" src="javascripts/modernizr.js"></script>
-    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-    <script type="text/javascript" src="javascripts/headsmart.min.js"></script>
-    <script type="text/javascript">
-      $(document).ready(function () {
-        $('#main_content').headsmart()
-      })
-    </script>
     <title>Marmir by brianray</title>
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="javascripts/respond.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <!--[if lt IE 8]>
+    <link rel="stylesheet" href="stylesheets/ie.css">
+    <![endif]-->
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
   </head>
-
   <body>
-    <a id="forkme_banner" href="https://github.com/brianray/mm">View on GitHub</a>
-    <div class="shell">
+      <div id="header">
+        <nav>
+          <li class="fork"><a href="https://github.com/brianray/mm">View On GitHub</a></li>
+          <li class="downloads"><a href="https://github.com/brianray/mm/zipball/master">ZIP</a></li>
+          <li class="downloads"><a href="https://github.com/brianray/mm/tarball/master">TAR</a></li>
+          <li class="title">DOWNLOADS</li>
+        </nav>
+      </div><!-- end header -->
 
-      <header>
-        <span class="ribbon-outer">
-          <span class="ribbon-inner">
-            <h1>Marmir</h1>
-            <h2>Python powered spreadsheets</h2>
-          </span>
-          <span class="left-tail"></span>
-          <span class="right-tail"></span>
-        </span>
-      </header>
+    <div class="wrapper">
 
-      <section id="downloads">
-        <span class="inner">
-          <a href="https://github.com/brianray/mm/zipball/master" class="zip"><em>download</em> .ZIP</a><a href="https://github.com/brianray/mm/tarball/master" class="tgz"><em>download</em> .TGZ</a>
-        </span>
-      </section>
+      <section>
+        <div id="title">
+          <h1>Marmir</h1>
+          <p>Python powered spreadsheets</p>
+          <hr>
+          <span class="credits left">Project maintained by <a href="https://github.com/brianray">brianray</a></span>
+          <span class="credits right">Hosted on GitHub Pages &mdash; Theme by <a href="http://twitter.com/#!/michigangraham">mattgraham</a></span>
+        </div>
 
-
-      <span class="banner-fix"></span>
-
-
-      <section id="main_content">
         <h1>Marmir is powerful and fun</h1>
 
 <p><a href="http://brianray.github.com/mm/">Marmir</a> takes Python data structures and turns them into spreadsheets.</p>
 
-<p>It is xlwt and google spreadsheets on steroids.</p>
+<p>It is xlwt and google spreadsheets on steroids. </p>
+
+<p>It also supports: input from Django models; taking Psycopg cursors; writing out ascii tables (like psql does); and will soon support HTML tables as output. The goal is to have one easy input with lowest possible configuration and support output of many useful table formats.</p>
 
 <h2>Marmir melts in your mouth</h2>
 
@@ -171,20 +165,8 @@ is sick of sub-par Python libraries for creating business spreadsheets.</p>
 <p>Copyright (c) 2013 Brian Ray</p>
       </section>
 
-      <footer>
-        <span class="ribbon-outer">
-          <span class="ribbon-inner">
-            <p>this project by <a href="https://github.com/brianray">brianray</a> can be found on <a href="https://github.com/brianray/mm">GitHub</a></p>
-          </span>
-          <span class="left-tail"></span>
-          <span class="right-tail"></span>
-        </span>
-        <p>Generated with <a href="http://pages.github.com">GitHub Pages</a> using Merlot</p>
-        <span class="octocat"></span>
-      </footer>
-
     </div>
-
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
     
   </body>
 </html>
