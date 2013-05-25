@@ -3,7 +3,9 @@ Marmir is powerful and fun
 
 [Marmir](http://brianray.github.com/mm/) takes Python data structures and turns them into spreadsheets.
 
-It is xlwt and google spreadsheets on steroids.
+It is xlwt and google spreadsheets on steroids. 
+
+It also supports: input from Django models; taking Psycopg cursors; writing out ascii tables (like psql does); and will soon support HTML pages. The goal is to have one easy input with lowest possible configuration and support output of many useful table formats.
 
 ## Marmir melts in your mouth
 
