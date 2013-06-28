@@ -21,20 +21,37 @@ class GridBase(object):
         # this is pass one
         # want to do as much processing here as we can
         # we populate left to right, top to bottom
+        n_missing = 0
         for row_id in range(self.row_count):
             for col_id in range(self.col_count):
                 field_type_class = self.headers[col_id]
 
                 # headers from seelf.data_model.field_headers, sorted
                 if using_lists:
-                    data = indata[row_id][col_id]  # direct data access lists
+                    try:
+                        data = indata[row_id][col_id]  # direct data access lists
+                    except IndexError:
+                        n_missing += 1
+                        data = ''
                 else:
-                    data = indata[row_id][self.titles[col_id]]  # direct data access dicts
+                    try:
+                        data = indata[row_id][self.titles[col_id]]  # direct data access dicts
+                    except IndexError:
+                        n_missing += 1
+                        data = ''
                 if is_custom_mm_type(data):
                     # explicit type
-                    self.grid_data[row_id][col_id] = data
+                    try:
+                        self.grid_data[row_id][col_id] = data
+                    except IndexError:
+                        n_missing += 1
+                        data = ''
                 else:
                     # wrap in type from headers
-                    self.grid_data[row_id][col_id] = field_type_class(data)
-
+                    try:
+                        self.grid_data[row_id][col_id] = field_type_class(data)
+                    except IndexError:
+                        n_missing += 1 
+                        data = ''
         log.info("populated grid %sX%s" % (self.row_count, self.col_count))
+        log.info('%d missing items' % n_missing)
