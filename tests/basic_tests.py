@@ -133,6 +133,27 @@ class TestBasicSuite(unittest.TestCase):
             msg="String should be longer than %s" % len(str))
         f = open("test_col_types.xls", "wb")
         f.write(str)
+    def test_missing(self):
+        my_data = [
+            {
+                'msg': "My first Cell",
+                'id': 1,
+                'when': now,
+            },
+            {
+                'msg': "My second Cell has missing data",
+                'id': 2,
+            },
 
+        ]
+        mm_doc = mm.Document(my_data)
+        str = mm_doc.writestr()
+        self.assertTrue(
+            len(str) > 10,
+            msg="String should be longer than %s" % len(str))
+        f = open("test_doc.xls", "wb")
+        f.write(str)
+        f.close()
+        self.check("test_doc.xls", my_data)
 if __name__ == "__main__":
     unittest.main()

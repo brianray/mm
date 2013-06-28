@@ -41,12 +41,25 @@ class GridBase(object):
                         log.warning('No index found in row %d column %d' % (row_id,col_id))
                         n_missing += 1
                         data = ''
+                    except KeyError:
+                        log.warning('No key found in row %d column %d' % (row_id,col_id))
+                        n_missing += 1
+                        data = ''
+                    except:
+                        log.warning('No key found in row %d column %d' % (row_id,col_id))
+                        n_missing += 1
+                        data = ''
+                    
                 if is_custom_mm_type(data):
                     # explicit type
                     try:
                         self.grid_data[row_id][col_id] = data
                     except IndexError:
                         log.warning('No index found in row %d column %d' % (row_id,col_id))
+                        n_missing += 1
+                        data = ''
+                    except KeyError:
+                        log.warning('No key found in row %d column %d' % (row_id,col_id))
                         n_missing += 1
                         data = ''
                 else:
