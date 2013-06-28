@@ -32,23 +32,23 @@ class GridBase(object):
                         data = indata[row_id][col_id]  # direct data access lists
                     except IndexError:
                         log.warning('No index found in row %d column %d' % (row_id,col_id))
+                        if INGORE_DATA_MISMATCH:
+                            data = ''
                         n_missing += 1
-                        data = ''
+                        
                 else:
                     try:
                         data = indata[row_id][self.titles[col_id]]  # direct data access dicts
                     except IndexError:
                         log.warning('No index found in row %d column %d' % (row_id,col_id))
                         n_missing += 1
-                        data = ''
+                        if INGORE_DATA_MISMATCH:
+                            data = ''
                     except KeyError:
                         log.warning('No key found in row %d column %d' % (row_id,col_id))
                         n_missing += 1
-                        data = ''
-                    except:
-                        log.warning('No key found in row %d column %d' % (row_id,col_id))
-                        n_missing += 1
-                        data = ''
+                        if INGORE_DATA_MISMATCH:
+                            data = ''
                     
                 if is_custom_mm_type(data):
                     # explicit type
@@ -57,11 +57,8 @@ class GridBase(object):
                     except IndexError:
                         log.warning('No index found in row %d column %d' % (row_id,col_id))
                         n_missing += 1
-                        data = ''
-                    except KeyError:
-                        log.warning('No key found in row %d column %d' % (row_id,col_id))
-                        n_missing += 1
-                        data = ''
+                        if INGORE_DATA_MISMATCH:
+                            data = ''
                 else:
                     # wrap in type from headers
                     try:
@@ -69,7 +66,8 @@ class GridBase(object):
                     except IndexError:
                         log.warning('No index found in row %d column %d' % (row_id,col_id))
                         n_missing += 1 
-                        data = ''
+                        if INGORE_DATA_MISMATCH:
+                            data = ''
         log.info("populated grid %sX%s" % (self.row_count, self.col_count))
         if n_missing > 0:
             log.info('%d missing items' % n_missing)
