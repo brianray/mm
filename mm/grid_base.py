@@ -1,12 +1,11 @@
 import logging
 from model_base import is_custom_mm_type
-
 log = logging.getLogger(__name__)
 
 
 class GridBase(object):
 
-    def populate(self, indata):
+    def populate(self, indata, config):
         for required in ('row_count', 'col_count', 'headers', 'titles'):
             if not hasattr(self, required):
                 raise Exception("missing required attribute to Grid: %s" % required)
@@ -32,7 +31,7 @@ class GridBase(object):
                         data = indata[row_id][col_id]  # direct data access lists
                     except IndexError:
                         log.warning('No index found in row %d column %d' % (row_id,col_id))
-                        if INGORE_DATA_MISMATCH:
+                        if config.INGORE_DATA_MISMATCH:
                             data = ''
                         n_missing += 1
                         
@@ -42,12 +41,12 @@ class GridBase(object):
                     except IndexError:
                         log.warning('No index found in row %d column %d' % (row_id,col_id))
                         n_missing += 1
-                        if INGORE_DATA_MISMATCH:
+                        if config.INGORE_DATA_MISMATCH:
                             data = ''
                     except KeyError:
                         log.warning('No key found in row %d column %d' % (row_id,col_id))
                         n_missing += 1
-                        if INGORE_DATA_MISMATCH:
+                        if config.INGORE_DATA_MISMATCH:
                             data = ''
                     
                 if is_custom_mm_type(data):
@@ -57,7 +56,7 @@ class GridBase(object):
                     except IndexError:
                         log.warning('No index found in row %d column %d' % (row_id,col_id))
                         n_missing += 1
-                        if INGORE_DATA_MISMATCH:
+                        if config.INGORE_DATA_MISMATCH:
                             data = ''
                 else:
                     # wrap in type from headers
@@ -66,7 +65,7 @@ class GridBase(object):
                     except IndexError:
                         log.warning('No index found in row %d column %d' % (row_id,col_id))
                         n_missing += 1 
-                        if INGORE_DATA_MISMATCH:
+                        if config.INGORE_DATA_MISMATCH:
                             data = ''
         log.info("populated grid %sX%s" % (self.row_count, self.col_count))
         if n_missing > 0:

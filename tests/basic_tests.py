@@ -3,7 +3,7 @@ import datetime
 import mm
 import os
 from xlrd_helper import XLSReader
-
+from mm.config_base import ConfigBase
 path = os.path.dirname(__file__)
 now = datetime.datetime.now().replace(microsecond=0)
 
@@ -155,5 +155,6 @@ class TestBasicSuite(unittest.TestCase):
         f.write(str)
         f.close()
         self.check("test_doc.xls", my_data)
+ 
 if __name__ == "__main__":
     unittest.main()

@@ -64,7 +64,9 @@ class Document(DocumentWriter):
         serializer = serializer_class(
             self.data_model,
             self.data,
-            grid_class=grid_class)
+            self.config,
+            grid_class=grid_class
+            )
 
         # returns a grid instance
         self.grid = serializer.serialize()
