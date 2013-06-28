@@ -30,6 +30,7 @@ class ConfigBase(object):
     datetime_format = 'M/D/YY h:mm:ss'
     date_format = 'M/D/YY'
     time_format = "h:mm:ss"
+    INGORE_DATA_MISMATCH = True
 
 
 

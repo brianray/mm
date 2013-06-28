@@ -31,12 +31,14 @@ class GridBase(object):
                     try:
                         data = indata[row_id][col_id]  # direct data access lists
                     except IndexError:
+                        log.warning('No index found in row %d column %d' % (row_id,col_id))
                         n_missing += 1
                         data = ''
                 else:
                     try:
                         data = indata[row_id][self.titles[col_id]]  # direct data access dicts
                     except IndexError:
+                        log.warning('No index found in row %d column %d' % (row_id,col_id))
                         n_missing += 1
                         data = ''
                 if is_custom_mm_type(data):
@@ -44,6 +46,7 @@ class GridBase(object):
                     try:
                         self.grid_data[row_id][col_id] = data
                     except IndexError:
+                        log.warning('No index found in row %d column %d' % (row_id,col_id))
                         n_missing += 1
                         data = ''
                 else:
@@ -51,7 +54,9 @@ class GridBase(object):
                     try:
                         self.grid_data[row_id][col_id] = field_type_class(data)
                     except IndexError:
+                        log.warning('No index found in row %d column %d' % (row_id,col_id))
                         n_missing += 1 
                         data = ''
         log.info("populated grid %sX%s" % (self.row_count, self.col_count))
-        log.info('%d missing items' % n_missing)
+        if n_missing > 0:
+            log.info('%d missing items' % n_missing)
