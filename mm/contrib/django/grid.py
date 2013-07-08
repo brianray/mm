@@ -4,7 +4,7 @@ log = logging.getLogger(__name__)
 
 class DjangoGrid(object):
 
-    def populate(self, indata):
+    def populate(self, indata, config=None):
         for required in ('row_count', 'col_count', 'headers'):
             if not hasattr(self, required):
                 raise Exception("missing required attribute to Grid: %s" % required)
