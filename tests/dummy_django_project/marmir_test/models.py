@@ -21,6 +21,7 @@ class TestAllBaseTypes(models.Model):
     PositiveSmallIntegerField = models.PositiveSmallIntegerField() # int
     SlugField = models.SlugField(max_length=30) # unicode
     SmallIntegerField = models.SmallIntegerField() # int
+    BigIntegerField = models.BigIntegerField() # int
     TextField = models.TextField() # unicode
     TimeField = models.TimeField(auto_now_add=True) # datetime.time
     URLField = models.URLField(max_length=100) # unicode

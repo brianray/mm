@@ -51,6 +51,7 @@ class DjangoDataModel(object):
             fields.PositiveIntegerField,
             fields.PositiveSmallIntegerField,
             fields.SmallIntegerField,
+            fields.BigIntegerField,
 
         ]
 
