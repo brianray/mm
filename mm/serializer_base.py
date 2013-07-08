@@ -8,7 +8,7 @@ class Serializer(object):
         self.data_model = data_model
         self.grid_class = grid_class
         self.config = config
-        
+
     def serialize(self):
         """ returnes serialzed data into a Grid """
         grid = self.grid_class()
