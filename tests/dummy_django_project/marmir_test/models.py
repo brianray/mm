@@ -26,6 +26,11 @@ class TestAllBaseTypes(models.Model):
     TimeField = models.TimeField(auto_now_add=True) # datetime.time
     URLField = models.URLField(max_length=100) # unicode
     #XMLField = models.XMLField()
+
+    #    https://github.com/brianray/mm/issues/11
+    null_char = models.CharField(max_length=10, null=True, blank=True)
+
     def __unicode__(self):
         return u"%s" % (self.CharField)
+
 

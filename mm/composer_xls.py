@@ -12,6 +12,8 @@ log = logging.getLogger(__name__)
 
 
 def get_string_width_from_style(char_string, style):
+    if not char_string:
+        return 0
     point_size = style.font.height / 0x14  # convert back to points
     font_name = style.font.name
     if not font_name:
