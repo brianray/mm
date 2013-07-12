@@ -12,7 +12,7 @@ log = logging.getLogger(__name__)
 
 
 def get_string_width_from_style(char_string, style):
-    if not char_string:
+    if type(char_string) not in (unicode, str):
         return 0
     point_size = style.font.height / 0x14  # convert back to points
     font_name = style.font.name
@@ -79,7 +79,7 @@ class styleXLS(style_base.StyleBase):
             horz = 3
         elif self.text_align == 'left':
             horz = 1  # left
-        elif self.text_align != None:
+        elif self.text_align is not None:
             log.warn("Unknown text_align %s" % self.text_align)
 
         text_align.horz = horz
