@@ -107,7 +107,7 @@ So the primary goals are:
  * convert python types automagically, date is a date, int is a int, string is a string, ...
  * do stuff you expect like make columns wider to fit, wrap in some cases
  * make stuff pretty colors and easier to read
- * generate directy fron Django queries
+ * generate directly from Django queries
 
 Some other stuff:
 
