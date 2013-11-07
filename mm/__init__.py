@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 
-
 __version__ = "0.1.3"
 __author__ = [
     "Brian Ray <brianhray@gmail.com>",
@@ -17,5 +16,6 @@ logging.basicConfig()
 Date = model_base.DateFieldType
 URL = model_base.URLFieldType
 Image = model_base.ImageFieldType
+Formula = model_base.FormulaFieldType
 
 Config = config_base.ConfigBase

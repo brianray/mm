@@ -77,6 +77,10 @@ class ImageFieldType(BaseFieldType):
         super(ImageFieldType, self).__init__(path)
 
 
+class FormulaFieldType(BaseFieldType):
+    pass
+
+
 class NoneFieldType(BaseFieldType):
     pass
 
@@ -151,8 +155,12 @@ class DataModel(object):
 
     def figure_out_type(self, item):
         item_type = type(item)
+
         if item_type == unicode or item_type == str:
-            return StringFieldType
+            if item.startswith('=') :
+                return FormulaFieldType
+            else :
+                return StringFieldType
 
         elif item_type == int:
             return IntFieldType

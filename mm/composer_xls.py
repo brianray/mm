@@ -1,3 +1,4 @@
+import re
 from composer_base import ComposerBase
 import lib.xlwt_0_7_2 as xlwt
 from lib.font_data.core import get_string_width
@@ -158,6 +159,13 @@ class ComposerXLS(ComposerBase):
                 row_id,
                 col_id,
                 xlwt.Formula('HYPERLINK("%s";"%s")' % (value, cell.displayname)),
+                style
+            )
+        elif type(cell) == model_base.FormulaFieldType:
+            self.sheet.write(
+                row_id,
+                col_id,
+                xlwt.Formula(re.sub('^=', '', value)),
                 style
             )
 
