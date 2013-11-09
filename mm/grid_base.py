@@ -8,7 +8,8 @@ class GridBase(object):
     def populate(self, indata, config):
         for required in ('row_count', 'col_count', 'headers', 'titles'):
             if not hasattr(self, required):
-                raise Exception("missing required attribute to Grid: %s" % required)
+                raise Exception("missing required attribute to Grid: %s" %
+                                required)
         # create a grid
         self.grid_data = [[None] * self.col_count for i in range(self.row_count)]
 
@@ -28,33 +29,42 @@ class GridBase(object):
                 # headers from seelf.data_model.field_headers, sorted
                 if using_lists:
                     try:
-                        data = indata[row_id][col_id]  # direct data access lists
+                        # direct data access lists
+                        data = indata[row_id][col_id]
                     except IndexError:
-                        log.warning('No index found in row %d column %d' % (row_id,col_id))
+                        log.warning('No index found in row %d column %d' %
+                                    (row_id, col_id))
                         if config.INGORE_DATA_MISMATCH:
                             data = ''
                         n_missing += 1
-                        
+
                 else:
+                    if len(indata[row_id]) > self.col_count:
+                        raise Exception("Data mismatch: Row %d has %d more columns than row 1" %
+                                        ((row_id + 1), len(indata[row_id])-self.col_count))
                     try:
-                        data = indata[row_id][self.titles[col_id]]  # direct data access dicts
+                        #direct data access dicts
+                        data = indata[row_id][self.titles[col_id]]
                     except IndexError:
-                        log.warning('No index found in row %d column %d' % (row_id,col_id))
+                        log.warning('No index found in row %d column %d' %
+                                    (row_id, col_id))
                         n_missing += 1
                         if config.INGORE_DATA_MISMATCH:
                             data = ''
                     except KeyError:
-                        log.warning('No key found in row %d column %d' % (row_id,col_id))
+                        log.warning('No key found in row %d column %d' %
+                                    (row_id, col_id))
                         n_missing += 1
                         if config.INGORE_DATA_MISMATCH:
                             data = ''
-                    
+
                 if is_custom_mm_type(data):
                     # explicit type
                     try:
                         self.grid_data[row_id][col_id] = data
                     except IndexError:
-                        log.warning('No index found in row %d column %d' % (row_id,col_id))
+                        log.warning('No index found in row %d column %d' %
+                                    (row_id, col_id))
                         n_missing += 1
                         if config.INGORE_DATA_MISMATCH:
                             data = ''
@@ -63,8 +73,9 @@ class GridBase(object):
                     try:
                         self.grid_data[row_id][col_id] = field_type_class(data)
                     except IndexError:
-                        log.warning('No index found in row %d column %d' % (row_id,col_id))
-                        n_missing += 1 
+                        log.warning('No index found in row %d column %d' %
+                                    (row_id, col_id))
+                        n_missing += 1
                         if config.INGORE_DATA_MISMATCH:
                             data = ''
         log.info("populated grid %sX%s" % (self.row_count, self.col_count))
