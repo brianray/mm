@@ -1,6 +1,6 @@
 import logging
 from mm import model_base
-import django.db.models.fields as fields
+from django.db import models
 
 log = logging.getLogger(__name__)
 
@@ -37,63 +37,71 @@ class DjangoDataModel(object):
 
     def _string_types(self):
         return [
-            fields.CharField,
-            fields.CommaSeparatedIntegerField,
-            fields.IPAddressField,
-            fields.SlugField,
-            fields.TextField,
+            models.CharField,
+            models.CommaSeparatedIntegerField,
+            models.IPAddressField,
+            models.SlugField,
+            models.TextField,
+            models.EmailField,
+            models.FilePathField,
+            models.GenericIPAddressField,
         ]
 
     def _int_types(self):
         return [
-            fields.AutoField,
-            fields.IntegerField,
-            fields.PositiveIntegerField,
-            fields.PositiveSmallIntegerField,
-            fields.SmallIntegerField,
-            fields.BigIntegerField,
+            models.AutoField,
+            models.IntegerField,
+            models.PositiveIntegerField,
+            models.PositiveSmallIntegerField,
+            models.SmallIntegerField,
+            models.BigIntegerField,
 
         ]
 
     def _bool_types(self):
         return [
-            fields.BooleanField,
-            fields.NullBooleanField,
+            models.BooleanField,
+            models.NullBooleanField,
         ]
 
     def _date_types(self):
         return [
-            fields.DateField,
+            models.DateField,
         ]
 
     def _time_types(self):
         return [
-            fields.TimeField
+            models.TimeField
         ]
 
     def _datetime_types(self):
         return [
-            fields.DateTimeField,
+            models.DateTimeField,
         ]
 
     def _decimal_types(self):
         return [
-            fields.DecimalField,
+            models.DecimalField,
         ]
 
     def _float_types(self):
         return [
-            fields.FloatField,
+            models.FloatField,
         ]
 
     def _none_types(self):
-        return [
-            fields.NullBooleanField
+        l = [
+            models.NullBooleanField,
+            models.FileField,
+            models.ImageField,
         ]
+        if "BinaryField" in dir(models):
+            l.append(models.BinaryField)
+        return l
 
     def _url_types(self):
         return [
-            fields.URLField
+            models.URLField
         ]
 
     def type_mapping(self):
@@ -116,6 +124,8 @@ class DjangoDataModel(object):
 This is how django stores types in sqlite3:
 
 "AutoField" integer NOT NULL PRIMARY KEY,
+"BigInteger" bigint NOT NULL,
+"BinaryField" BLOB NOT NULL,
 "BooleanField" bool NOT NULL,
 "CharField" varchar(50) NOT NULL,
 "CommaSeparatedIntegerField" varchar(25) NOT NULL,
@@ -123,17 +133,21 @@ This is how django stores types in sqlite3:
 "DateTimeField" datetime NOT NULL,
 "DecimalField" decimal NOT NULL,
 "EmailField" varchar(75) NOT NULL,
+"FileField" varchar(100) NOT NULL,
+"FilePathField" varchar(100) NOT NULL,
 "FloatField" real NOT NULL,
+"ImageField" varchar(100) NOT NULL,
 "IntegerField" integer NOT NULL,
 "IPAddressField" char(15) NOT NULL,
+"GenericIPAddressField" char(39) NOT NULL,
 "NullBooleanField" bool,
 "PositiveIntegerField" integer unsigned NOT NULL,
 "PositiveSmallIntegerField" smallint unsigned NOT NULL,
-"SlugField" varchar(30) NOT NULL,
+"SlugField" varchar(50) NOT NULL,
 "SmallIntegerField" smallint NOT NULL,
 "TextField" text NOT NULL,
 "TimeField" time NOT NULL,
-"URLField" varchar(100) NOT NULL
+"URLField" varchar(200) NOT NULL
         """
         item_type = type(item)
         for func, mm_type in self.type_mapping():
