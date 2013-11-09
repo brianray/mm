@@ -1,6 +1,6 @@
 import logging
 from mm import model_base
-import django.db.models.fields as fields
+from django.db import models
 
 log = logging.getLogger(__name__)
 
@@ -37,63 +37,63 @@ class DjangoDataModel(object):
 
     def _string_types(self):
         return [
-            fields.CharField,
-            fields.CommaSeparatedIntegerField,
-            fields.IPAddressField,
-            fields.SlugField,
-            fields.TextField,
+            models.CharField,
+            models.CommaSeparatedIntegerField,
+            models.IPAddressField,
+            models.SlugField,
+            models.TextField,
         ]
 
     def _int_types(self):
         return [
-            fields.AutoField,
-            fields.IntegerField,
-            fields.PositiveIntegerField,
-            fields.PositiveSmallIntegerField,
-            fields.SmallIntegerField,
-            fields.BigIntegerField,
+            models.AutoField,
+            models.IntegerField,
+            models.PositiveIntegerField,
+            models.PositiveSmallIntegerField,
+            models.SmallIntegerField,
+            models.BigIntegerField,
 
         ]
 
     def _bool_types(self):
         return [
-            fields.BooleanField,
-            fields.NullBooleanField,
+            models.BooleanField,
+            models.NullBooleanField,
         ]
 
     def _date_types(self):
         return [
-            fields.DateField,
+            models.DateField,
         ]
 
     def _time_types(self):
         return [
-            fields.TimeField
+            models.TimeField
         ]
 
     def _datetime_types(self):
         return [
-            fields.DateTimeField,
+            models.DateTimeField,
         ]
 
     def _decimal_types(self):
         return [
-            fields.DecimalField,
+            models.DecimalField,
         ]
 
     def _float_types(self):
         return [
-            fields.FloatField,
+            models.FloatField,
         ]
 
     def _none_types(self):
         return [
-            fields.NullBooleanField
+            models.NullBooleanField,
         ]
 
     def _url_types(self):
         return [
-            fields.URLField
+            models.URLField
         ]
 
     def type_mapping(self):
