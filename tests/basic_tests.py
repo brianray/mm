@@ -88,7 +88,8 @@ class TestBasicSuite(unittest.TestCase):
                 'msg': "My second Cell",
                 'id': 2,
                 'when': now,
-                'homepage': mm.URL("http://twitter.com/brianray", "Tweet Tweet")
+                'homepage': mm.URL("http://twitter.com/brianray",
+                                   "Tweet Tweet")
             },
 
         ]
@@ -133,7 +134,8 @@ class TestBasicSuite(unittest.TestCase):
             msg="String should be longer than %s" % len(str))
         f = open("test_col_types.xls", "wb")
         f.write(str)
-    def test_missing(self):
+
+    def test_missing_1(self):
         my_data = [
             {
                 'msg': "My first Cell",
@@ -155,6 +157,33 @@ class TestBasicSuite(unittest.TestCase):
         f.write(str)
         f.close()
         self.check("test_doc.xls", my_data)
- 
+
+    def test_missing_2(self):
+        my_data = [
+            {
+                'msg': "My first Cell",
+                'id': 1,
+            },
+            {
+                'msg': "My second Cell",
+                'id': 2,
+            },
+            {
+                'msg': "My third Cell has missing data",
+                'id': 3,
+                'when': now,
+            },
+        ]
+        with self.assertRaises(Exception):
+            mm_doc = mm.Document(my_data)
+            str = mm_doc.writestr()
+            self.assertTrue(
+                len(str) > 10,
+                msg="String should be longer than %s" % len(str))
+            f = open("test_doc.xls", "wb")
+            f.write(str)
+            f.close()
+            self.check("test_doc.xls", my_data)
+
 if __name__ == "__main__":
     unittest.main()
