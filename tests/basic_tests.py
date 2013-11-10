@@ -2,6 +2,7 @@ import unittest
 import datetime
 import mm
 import os
+import filecmp
 from xlrd_helper import XLSReader
 from mm.config_base import ConfigBase
 path = os.path.dirname(__file__)
@@ -184,6 +185,36 @@ class TestBasicSuite(unittest.TestCase):
             f.write(str)
             f.close()
             self.check("test_doc.xls", my_data)
+    
+    def test_write_and_writestr_binary_output(self):
+        """
+        write() and writestr() should generate the same files
+        """
+        my_data = [
+            {
+                'msg': "My first Cell",
+                'id': 1,
+                'when': now,
+
+            },
+            {
+                'msg': "My second Cell",
+                'id': 2,
+                'when': now,
+            },
+
+        ]
+        
+        # Write using write()
+        mm_doc = mm.Document(my_data)
+        mm_doc.write('test_file1.xls')
+
+        # Write using writestr() in binary mode
+        str = mm_doc.writestr()
+        with open('test_file2.xls', 'wb') as f:
+            f.write(str)
+
+        self.assertTrue(filecmp.cmp('test_file1.xls', 'test_file2.xls'))
 
 if __name__ == "__main__":
     unittest.main()
