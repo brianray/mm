@@ -195,14 +195,12 @@ class TestBasicSuite(unittest.TestCase):
                 'msg': "My first Cell",
                 'id': 1,
                 'when': now,
-
             },
             {
                 'msg': "My second Cell",
                 'id': 2,
                 'when': now,
             },
-
         ]
         
         # Write using write()
