@@ -5,7 +5,7 @@ Marmir is powerful and fun
 
 It is xlwt and google spreadsheets on steroids. 
 
-It also supports: input from Django models; taking Psycopg cursors; writing out ascii tables (like psql does); and will soon support HTML tables as output. The goal is to have one easy input with lowest possible configuration and support output of many useful table formats.
+It also supports: input from Django models; taking Psycopg cursors; writing out ascii tables (like psql does); and will soon support HTML tables as output. The goal is to make it easy to generate many types of useful table files with the least amount of configuration.
 
 ## Marmir melts in your mouth
 
@@ -117,8 +117,8 @@ Some other stuff:
 ## Marmir is written with love
 
 Brian Ray [@brianray](http://twitter.com/brianray) wrote Marmir. Brian: is the organizer of ChiPy
-(http://chipy.org); one of the top 25 tech in Chicago (according to Crains Oct
-2011); been professionaly developing software for business for 15 years ; and
+(http://chipy.org); one of Chicago's Top Tech 25 (according to Crains Oct
+2011); been professionally developing software for business for 15 years; and
 is sick of sub-par Python libraries for creating business spreadsheets.
 
 The name Marmir name from parts of the names Maura and Miranda, the author's girls.
