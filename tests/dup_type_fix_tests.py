@@ -28,7 +28,7 @@ class TestBasicSuite(unittest.TestCase):
         with open("tests/generated_files/test_dup.xls", "wb") as f:
             f.write(str)
     
-        self.check("test_dup.xls", my_data)
+        self.check("tests/generated_files/test_dup.xls", my_data)
 
     def check(self, filename, my_data):
         xls = XLSReader(filename)
