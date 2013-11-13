@@ -34,10 +34,10 @@ class TestMultiSuite(unittest.TestCase):
         self.assertTrue(
             len(str) > 10,
             msg="String should be longer than %s" % len(str))
-        f = open("test_multi.xls", "wb")
-        f.write(str)
-        f.close()
-        self.check("test_multi.xls", my_data)
+        with open("tests/generated_files/test_multi.xls", "wb") as f:
+            f.write(str)
+        
+        self.check("tests/generated_files/test_multi.xls", my_data)
 
     def check(self, filename, my_data):
         xls = XLSReader(filename)

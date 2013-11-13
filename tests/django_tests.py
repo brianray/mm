@@ -34,9 +34,9 @@ class DjangoTestSuite(unittest.TestCase):
         str = mm_doc.writestr()
         self.assertTrue(len(str) > 10,
             msg="String should be longer than %s" % len(str))
-        f = open("test_django_serializer.xls", "wb")
-        f.write(str)
-        f.close()
+        with open("tests/generated_files/test_django_serializer.xls", "wb") as f:
+            f.write(str)
+        
 
 
 

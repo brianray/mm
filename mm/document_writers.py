@@ -32,9 +32,9 @@ class DocumentWriter(object):
             self.composer = ComposerPrettyTable(self.data_model, self.grid, self)
             log.info("Setting output format to TXT, based on file extension")
 
-        f = open(filename, "wb")
-        f.write(self.writestr())
-        f.close()
+        with open(filename, "wb") as f:
+            f.write(self.writestr())
+        
         log.info("wrote file: %s" % filename)
 
     def write_gdata(self, name, username, password, auth_token=None):
