@@ -31,10 +31,9 @@ class TestBasicSuite(unittest.TestCase):
         self.assertTrue(
             len(str) > 10,
             msg="String should be longer than %s" % len(str))
-        f = open("test_doc.xls", "wb")
-        f.write(str)
-        f.close()
-        self.check("test_doc.xls", my_data)
+        with open("tests/generated_files/test_doc.xls", "wb") as f:
+            f.write(str)
+        self.check("tests/generated_files/test_doc.xls", my_data)
 
     def test_minimal_lists(self):
 
@@ -49,11 +48,11 @@ class TestBasicSuite(unittest.TestCase):
         self.assertTrue(
             len(str) > 10,
             msg="String should be longer than %s" % len(str))
-        f = open("test_list_doc.xls", "wb")
-        f.write(str)
-        f.close()
+        with open("tests/generated_files/test_list_doc.xls", "wb") as f:
+            f.write(str)
+        
         as_dict = [dict(zip(my_headers, row)) for row in my_data]
-        self.check("test_list_doc.xls", as_dict)
+        self.check("tests/generated_files/test_list_doc.xls", as_dict)
 
     def check(self, filename, my_data):
         xls = XLSReader(filename)
@@ -99,11 +98,10 @@ class TestBasicSuite(unittest.TestCase):
         self.assertTrue(
             len(str) > 10,
             msg="String should be longer than %s" % len(str))
-        f = open("test_doc2.xls", "wb")
-        f.write(str)
-        f.close()
+        with open("tests/generated_files/test_doc2.xls", "wb") as f:
+            f.write(str)
 
-        #TODO self.check("test_doc2.xls", my_data)
+        #TODO self.check("tests/generated_files/test_doc2.xls", my_data)
 
     def test_image(self):
 
@@ -117,8 +115,8 @@ class TestBasicSuite(unittest.TestCase):
         self.assertTrue(
             len(str) > 10,
             msg="String should be longer than %s" % len(str))
-        f = open("test_doc_image.xls", "wb")
-        f.write(str)
+        with open("tests/generated_files/test_doc_image.xls", "wb") as f:
+            f.write(str)
 
     def test_col_type(self):
 
@@ -133,8 +131,8 @@ class TestBasicSuite(unittest.TestCase):
         self.assertTrue(
             len(str) > 10,
             msg="String should be longer than %s" % len(str))
-        f = open("test_col_types.xls", "wb")
-        f.write(str)
+        with open("tests/generated_files/test_col_types.xls", "wb") as f:
+            f.write(str)
 
     def test_missing_1(self):
         my_data = [
@@ -154,10 +152,9 @@ class TestBasicSuite(unittest.TestCase):
         self.assertTrue(
             len(str) > 10,
             msg="String should be longer than %s" % len(str))
-        f = open("test_doc.xls", "wb")
-        f.write(str)
-        f.close()
-        self.check("test_doc.xls", my_data)
+        with open("tests/generated_files/test_doc.xls", "wb") as f:
+            f.write(str)
+        self.check("tests/generated_files/test_doc.xls", my_data)
 
     def test_missing_2(self):
         my_data = [
@@ -181,10 +178,9 @@ class TestBasicSuite(unittest.TestCase):
             self.assertTrue(
                 len(str) > 10,
                 msg="String should be longer than %s" % len(str))
-            f = open("test_doc.xls", "wb")
-            f.write(str)
-            f.close()
-            self.check("test_doc.xls", my_data)
+            with open("test_doc.xls", "wb") as f:
+                f.write(str)
+            self.check("tests/generated_files/test_doc.xls", my_data)
     
     def test_write_and_writestr_binary_output(self):
         """
@@ -205,14 +201,15 @@ class TestBasicSuite(unittest.TestCase):
         
         # Write using write()
         mm_doc = mm.Document(my_data)
-        mm_doc.write('test_file1.xls')
+        mm_doc.write("tests/generated_files/test_file1.xls")
 
         # Write using writestr() in binary mode
         str = mm_doc.writestr()
-        with open('test_file2.xls', 'wb') as f:
+        with open("tests/generated_files/test_file2.xls", "wb") as f:
             f.write(str)
 
-        self.assertTrue(filecmp.cmp('test_file1.xls', 'test_file2.xls'))
+        self.assertTrue(filecmp.cmp("tests/generated_files/test_file1.xls", 
+                                    "tests/generated_files/test_file2.xls"))
 
 if __name__ == "__main__":
     unittest.main()

@@ -25,10 +25,10 @@ class TestBasicSuite(unittest.TestCase):
         str = mm_doc.writestr()
         self.assertTrue(len(str) > 10, 
             msg="String should be longer than %s" % len(str))
-        f = open("test_dup.xls", "wb")
-        f.write(str)
-        f.close()
-        self.check("test_dup.xls", my_data)
+        with open("tests/generated_files/test_dup.xls", "wb") as f:
+            f.write(str)
+    
+        self.check("tests/generated_files/test_dup.xls", my_data)
 
     def check(self, filename, my_data):
         xls = XLSReader(filename)

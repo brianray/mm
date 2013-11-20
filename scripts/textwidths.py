@@ -118,9 +118,9 @@ for font  in font_list:
 
 # write in binary pickle mode
 import cPickle as pickle
-f = open("font_data.bin","wb")
-pickle.dump(fonts,f,True)
-f.close()
+with open("font_data.bin","wb") as f:
+    pickle.dump(fonts,f,True)
+
 
 
 

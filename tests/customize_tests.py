@@ -33,9 +33,9 @@ class CustomTestSuite(unittest.TestCase):
         str = mm_doc.writestr()
         self.assertTrue(len(str) > 10, 
             msg="String should be longer than %s" % len(str))
-        f = open("test_custom_no_header.xls", "wb")
-        f.write(str)
-        f.close()
+        with open("tests/generated_files/test_custom_no_header.xls", "wb") as f:
+            f.write(str)
+        
 
 
     def test_no_style(self):
@@ -49,9 +49,9 @@ class CustomTestSuite(unittest.TestCase):
         str = mm_doc.writestr()
         self.assertTrue(len(str) > 10, 
             msg="String should be longer than %s" % len(str))
-        f = open("test_custom_no_styles.xls", "wb")
-        f.write(str)
-        f.close()
+        with open("tests/generated_files/test_custom_no_styles.xls", "wb") as f:
+            f.write(str)
+        
 
 
     def test_row_style(self):
@@ -64,9 +64,9 @@ class CustomTestSuite(unittest.TestCase):
         str = mm_doc.writestr()
         self.assertTrue(len(str) > 10, 
             msg="String should be longer than %s" % len(str))
-        f = open("test_custom_row_styles.xls", "wb")
-        f.write(str)
-        f.close()
+        with open("tests/generated_files/test_custom_row_styles.xls", "wb") as f:
+            f.write(str)
+        
 
         
 if __name__ == "__main__":
