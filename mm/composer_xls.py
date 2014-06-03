@@ -28,12 +28,11 @@ class styleXLS(style_base.StyleBase):
 
     def get_pattern(self):
         pattern = xlwt.Pattern()
+        # see issue #27 https://github.com/brianray/mm/issues/27
+        if not self.background_color:
+            return pattern
         pattern.pattern = 1
-        if self.background_color:
-            color = color_converter.get_closest_rgb_match(self.background_color)
-        else:
-            color = 1
-
+        color = color_converter.get_closest_rgb_match(self.background_color)
         pattern.pattern_fore_colour = color
         return pattern
 
