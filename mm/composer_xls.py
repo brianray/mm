@@ -148,9 +148,9 @@ class ComposerXLS(ComposerBase):
         value, style = self.cell_to_value(cell, row_id)
         if type(cell) == model_base.ImageFieldType:
             if cell.width:
-                self.sheet.col(col_id).width = cell.width * 256
+                self.sheet.col(col_id).width = cell.width 
             if cell.height:
-                self.sheet.col(col_id).height = cell.height * 256
+                self.sheet.col(col_id).height = cell.height 
             self.sheet.insert_bitmap(value, row_id, col_id)
 
         elif type(cell) == model_base.URLFieldType:
