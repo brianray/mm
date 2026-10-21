@@ -12,7 +12,7 @@ try:
 
     pretty_table = True
 except ImportError:  # pragma: no cover - depends on environment
-    prettytable = None
+    prettytable = None  # type: ignore[assignment, unused-ignore]
     pretty_table = False
 
 __all__ = ["ComposerPrettyTable", "pretty_table"]

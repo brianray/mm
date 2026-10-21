@@ -62,7 +62,7 @@ def _server_class() -> Any:
     except ImportError:
         pass
     try:
-        from mcp.server.fastmcp import FastMCP  # mcp 1.x
+        from mcp.server.fastmcp import FastMCP  # type: ignore[attr-defined, unused-ignore]  # mcp 1.x
 
         return FastMCP
     except ImportError as exc:
