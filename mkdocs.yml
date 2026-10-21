@@ -1,0 +1,33 @@
+site_name: Marmir
+site_description: Python data in, polished spreadsheets out -- for people and AI agents.
+repo_url: https://github.com/brianray/mm
+theme:
+  name: material
+markdown_extensions:
+  - admonition
+  - tables
+  - toc:
+      permalink: true
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+nav:
+  - Home: index.md
+  - Getting started: getting-started.md
+  - Concepts: concepts.md
+  - Data sources: data-sources.md
+  - Styling: styling.md
+  - Formats: formats.md
+  - Workbook spec: workbook-spec.md
+  - Integrations:
+      - Anthropic: integrations/anthropic.md
+      - OpenAI: integrations/openai.md
+      - MCP: integrations/mcp.md
+      - HTTP API: integrations/http-api.md
+      - Google Sheets: integrations/google-sheets.md
+  - CLI: cli.md
+  - Security: security.md
+  - Migration: migration.md
+  - API reference: api-reference.md

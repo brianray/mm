@@ -91,6 +91,7 @@ def test_schema_tools_openapi(capsys):
 
 
 def test_mcp_and_serve_dispatch(monkeypatch):
+    pytest.importorskip("mcp")
     seen = {}
     monkeypatch.setattr("mm.ai.mcp_server.main", lambda argv: seen.setdefault("mcp", argv))
     assert main(["mcp", "--transport", "sse"]) == 0

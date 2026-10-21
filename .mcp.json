@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "marmir": {
+      "command": "uvx",
+      "args": ["--from", "marmir[mcp]", "marmir-mcp"],
+      "env": {
+        "MARMIR_OUTPUT_DIR": "marmir_output"
+      }
+    }
+  }
+}

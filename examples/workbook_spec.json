@@ -1,0 +1,39 @@
+{
+  "title": "Q3 Sales",
+  "author": "Sales Ops",
+  "sheets": [
+    {
+      "name": "Summary",
+      "columns": [
+        {"name": "Region", "type": "string", "width": 16},
+        {"name": "Revenue", "type": "currency"},
+        {"name": "Target", "type": "currency"},
+        {"name": "Attainment", "type": "percent", "format": "0.0%"},
+        {"name": "Last deal", "type": "date", "format": "%Y-%m-%d"},
+        {"name": "CRM", "type": "url"}
+      ],
+      "rows": [
+        ["North", 125000, 120000, "=B2/C2", "2024-09-30", {"url": "https://crm.example.com/north", "text": "North pipeline"}],
+        ["South", 98000, 110000, "=B3/C3", "2024-09-28", {"url": "https://crm.example.com/south", "text": "South pipeline"}],
+        ["West", 143500, 130000, "=B4/C4", "2024-09-29", null],
+        [
+          {"value": "Total", "style": "font-weight: bold"},
+          {"formula": "SUM(B2:B4)", "style": "font-weight: bold"},
+          {"formula": "SUM(C2:C4)", "style": "font-weight: bold"},
+          {"formula": "B5/C5", "style": "font-weight: bold; background-color: #FFF2CC"},
+          null,
+          null
+        ]
+      ],
+      "options": {"autofilter": true}
+    },
+    {
+      "name": "Deals",
+      "rows": [
+        {"Deal": "Acme renewal", "Region": "North", "Amount": 52000, "Won": true},
+        {"Deal": "Globex expansion", "Region": "West", "Amount": 71500, "Won": true},
+        {"Deal": "Initech pilot", "Region": "South", "Amount": 18000, "Won": false}
+      ]
+    }
+  ]
+}

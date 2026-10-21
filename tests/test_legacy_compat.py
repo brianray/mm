@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import datetime as dt
+import importlib.util
 
 import mm
 from mm import color_converter, model_base
@@ -33,8 +34,11 @@ def test_readme_examples(tmp_path):
         {"msg": "My first Row", "id": 1, "when": now},
         {"msg": "My second Row", "id": 2, "when": now},
     ]
-    mm.Document(my_data).write(tmp_path / "example.xls")
-    assert (tmp_path / "example.xls").read_bytes()[:4] == b"\xd0\xcf\x11\xe0"
+    mm.Document(my_data).write(tmp_path / "example.xlsx")
+    assert (tmp_path / "example.xlsx").read_bytes()[:2] == b"PK"
+    if importlib.util.find_spec("xlwt"):
+        mm.Document(my_data).write(tmp_path / "example.xls")
+        assert (tmp_path / "example.xls").read_bytes()[:4] == b"\xd0\xcf\x11\xe0"
 
     fancy = [
         {
@@ -103,3 +107,13 @@ def test_grid_without_model_normalises(records):
     )
     grid.populate(records, mm.Config())
     assert grid.grid_data[1][0].data == "My second Cell"
+
+
+def test_missing_optional_dependency_message(monkeypatch, records):
+    import sys
+
+    import pytest
+
+    monkeypatch.setitem(sys.modules, "xlwt", None)
+    with pytest.raises(mm.MissingDependencyError, match=r"pip install 'marmir\[xls\]'"):
+        mm.Document(records).writestr("xls")

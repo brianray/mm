@@ -1,0 +1,496 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Marmir Spreadsheet API",
+    "description": "Create Excel, CSV, Markdown and HTML spreadsheets from a JSON workbook spec, and read spreadsheets back as Markdown or JSON.",
+    "version": "2.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://sheets.example.com"
+    }
+  ],
+  "paths": {
+    "/v1/schema": {
+      "get": {
+        "summary": "Workbook spec JSON Schema",
+        "operationId": "getWorkbookSchema",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "type": "object",
+                  "title": "Response Getworkbookschema"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/spreadsheets": {
+      "post": {
+        "summary": "Create a spreadsheet file from a workbook spec",
+        "description": "Body: {title?, format?, filename?, sheets: [{name, columns: [{name, type, format?}], rows: [[cell...]], options?}]}. Cells are scalars or {formula}, {url, text}, {value, type?, format?, style?}. Returns a download_url. Formulas use A1 references; row 1 is the header.",
+        "operationId": "createSpreadsheet",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": true,
+                "type": "object",
+                "title": "Spec",
+                "examples": [
+                  {
+                    "title": "Team budget",
+                    "format": "xlsx",
+                    "sheets": [
+                      {
+                        "name": "Budget",
+                        "columns": [
+                          {
+                            "name": "Item",
+                            "type": "string"
+                          },
+                          {
+                            "name": "Cost",
+                            "type": "currency"
+                          }
+                        ],
+                        "rows": [
+                          [
+                            "Laptops",
+                            4200
+                          ],
+                          [
+                            "Software",
+                            1300
+                          ],
+                          [
+                            {
+                              "value": "Total",
+                              "style": "font-weight: bold"
+                            },
+                            {
+                              "formula": "SUM(B2:B3)"
+                            }
+                          ]
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      }
+    },
+    "/v1/spreadsheets/preview": {
+      "post": {
+        "summary": "Validate a workbook spec and preview it as Markdown",
+        "operationId": "previewSpreadsheet",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": true,
+                "type": "object",
+                "title": "Spec",
+                "examples": [
+                  {
+                    "title": "Team budget",
+                    "format": "xlsx",
+                    "sheets": [
+                      {
+                        "name": "Budget",
+                        "columns": [
+                          {
+                            "name": "Item",
+                            "type": "string"
+                          },
+                          {
+                            "name": "Cost",
+                            "type": "currency"
+                          }
+                        ],
+                        "rows": [
+                          [
+                            "Laptops",
+                            4200
+                          ],
+                          [
+                            "Software",
+                            1300
+                          ],
+                          [
+                            {
+                              "value": "Total",
+                              "style": "font-weight: bold"
+                            },
+                            {
+                              "formula": "SUM(B2:B3)"
+                            }
+                          ]
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      }
+    },
+    "/v1/spreadsheets/render": {
+      "post": {
+        "summary": "Create a spreadsheet and return the file bytes",
+        "operationId": "renderSpreadsheet",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": true,
+                "type": "object",
+                "title": "Spec",
+                "examples": [
+                  {
+                    "title": "Team budget",
+                    "format": "xlsx",
+                    "sheets": [
+                      {
+                        "name": "Budget",
+                        "columns": [
+                          {
+                            "name": "Item",
+                            "type": "string"
+                          },
+                          {
+                            "name": "Cost",
+                            "type": "currency"
+                          }
+                        ],
+                        "rows": [
+                          [
+                            "Laptops",
+                            4200
+                          ],
+                          [
+                            "Software",
+                            1300
+                          ],
+                          [
+                            {
+                              "value": "Total",
+                              "style": "font-weight: bold"
+                            },
+                            {
+                              "formula": "SUM(B2:B3)"
+                            }
+                          ]
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              },
+              "application/octet-stream": {}
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      }
+    },
+    "/v1/spreadsheets/{file_id}": {
+      "get": {
+        "summary": "Download a created spreadsheet",
+        "operationId": "downloadSpreadsheet",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "file_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "File Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/spreadsheets/read": {
+      "post": {
+        "summary": "Upload a spreadsheet and get its contents as Markdown or JSON",
+        "operationId": "readSpreadsheet",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "max_rows",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 10000,
+              "minimum": 1,
+              "default": 50,
+              "title": "Max Rows"
+            }
+          },
+          {
+            "name": "output",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "pattern": "^(markdown|json)$",
+              "default": "markdown",
+              "title": "Output"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/Body_readSpreadsheet"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/formats": {
+      "get": {
+        "summary": "Output formats",
+        "operationId": "listFormats",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": {
+                    "items": {
+                      "type": "string"
+                    },
+                    "type": "array"
+                  },
+                  "type": "object",
+                  "title": "Response Listformats"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Body_readSpreadsheet": {
+        "properties": {
+          "file": {
+            "type": "string",
+            "contentMediaType": "application/octet-stream",
+            "title": "File"
+          }
+        },
+        "type": "object",
+        "required": [
+          "file"
+        ],
+        "title": "Body_readSpreadsheet"
+      },
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "type": "array",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "title": "HTTPValidationError"
+      },
+      "ValidationError": {
+        "properties": {
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "Location"
+          },
+          "msg": {
+            "type": "string",
+            "title": "Message"
+          },
+          "type": {
+            "type": "string",
+            "title": "Error Type"
+          },
+          "input": {
+            "title": "Input"
+          },
+          "ctx": {
+            "type": "object",
+            "title": "Context"
+          }
+        },
+        "type": "object",
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError"
+      }
+    },
+    "securitySchemes": {
+      "HTTPBearer": {
+        "type": "http",
+        "scheme": "bearer"
+      }
+    }
+  }
+}
