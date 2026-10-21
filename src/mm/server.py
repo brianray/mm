@@ -36,6 +36,7 @@ except ImportError as exc:  # pragma: no cover
 
 from . import __version__
 from .ai.tools import WRITE_FORMATS, SpreadsheetTools
+from .composers import format_for_path, get_composer_class
 from .spec import WORKBOOK_SPEC_SCHEMA
 
 __all__ = ["create_app"]
@@ -172,7 +173,9 @@ def create_app(
         path = (root / file_id).resolve()
         if not path.is_relative_to(root) or not path.is_file():
             raise HTTPException(status_code=404, detail="not found")
-        return FileResponse(path, filename=path.name)
+        fmt = format_for_path(path)
+        media_type = get_composer_class(fmt).media_type if fmt else None
+        return FileResponse(path, filename=path.name, media_type=media_type)
 
     @app.post(
         "/v1/spreadsheets/read",

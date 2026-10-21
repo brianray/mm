@@ -46,6 +46,9 @@ def test_create_and_download(client):
     assert body["download_url"] == f"https://api.example.com/v1/spreadsheets/{body['file_id']}"
     download = client.get(f"/v1/spreadsheets/{body['file_id']}", headers=AUTH)
     assert download.status_code == 200 and download.content[:2] == b"PK"
+    assert download.headers["content-type"] == (
+        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+    )
     assert client.get("/v1/spreadsheets/..%2Fsecret", headers=AUTH).status_code == 404
     assert client.get("/v1/spreadsheets/missing.xlsx", headers=AUTH).status_code == 404
     assert client.get("/v1/spreadsheets/.hidden", headers=AUTH).status_code == 404
