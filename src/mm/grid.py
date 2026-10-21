@@ -38,7 +38,12 @@ class GridBase:
                 raise AttributeError(f"missing required attribute to Grid: {required}")
         model = self.data_model
         if model is None or not hasattr(model, "table"):
-            model = DataModel(indata, order=self.titles, config=config)
+            model = DataModel(
+                indata,
+                order=self.titles,
+                column_types=dict(zip(self.titles, self.headers)),
+                config=config,
+            )
         ignore = bool(config.get("ignore_data_mismatch", True)) if config is not None else True
 
         self.grid_data = []
