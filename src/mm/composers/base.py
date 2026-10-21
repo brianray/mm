@@ -139,7 +139,7 @@ def number_format(
         return explicit or column_fmt or config.get("duration_format")
     if isinstance(cell, NUMERIC_TYPES):
         return explicit or column_fmt or cell.default_format
-    return explicit or cell.default_format
+    return explicit or column_fmt or cell.default_format
 
 
 def _letter(index: int) -> str:
