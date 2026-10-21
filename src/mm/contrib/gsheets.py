@@ -22,7 +22,7 @@ def sheet_values(document: Document) -> list[list[Any]]:
     """Values for one sheet as Google Sheets expects them (``USER_ENTERED`` input)."""
     rows: list[list[Any]] = []
     if document.config.get("headers", True):
-        rows.append([str(t) for t in document.data_model.field_titles])
+        rows.append([_value(BaseFieldType(str(t))) for t in document.data_model.field_titles])
     for row in document.grid.grid_data:
         rows.append([_value(cell) for cell in row])
     return rows
