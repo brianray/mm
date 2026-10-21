@@ -15,7 +15,6 @@ from ..types import (
     DecimalFieldType,
     DurationFieldType,
     FloatFieldType,
-    FormulaFieldType,
     HeaderFieldType,
     IntFieldType,
     TimeFieldType,
@@ -144,9 +143,6 @@ def number_format(
         return excel_date_format(explicit or column_fmt, config.get("time_format"), config)
     if isinstance(cell, DurationFieldType):
         return explicit or column_fmt or config.get("duration_format")
-    if isinstance(cell, (*NUMERIC_TYPES, FormulaFieldType)):
-        # formulas usually compute numbers, so they take the column's number format
-        return explicit or column_fmt or cell.default_format
     return explicit or column_fmt or cell.default_format
 
 

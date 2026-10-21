@@ -42,7 +42,8 @@ you gave in `column_types`. Marmir writes it as its inferred type and logs a war
 pass `ignore_data_mismatch=False` to raise `DataMismatchError` instead.
 
 **`UnsupportedFormatCodeException`.** The strftime code has no Excel equivalent
-(`%j` day of year, `%U`/`%W` week numbers, `%z`/`%Z` time zones). Format the value as
+(`%j` day of year, `%U`/`%W` week numbers, `%z`/`%Z` time zones), or a 12-hour `%I`
+is used without `%p` (Excel only shows 12-hour times with AM/PM). Format the value as
 text yourself or use an Excel format string.
 
 ## Installation
