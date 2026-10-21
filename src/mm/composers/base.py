@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import logging
+from functools import lru_cache
 from typing import TYPE_CHECKING, Any
 
 from ..formats import excel_date_format
@@ -14,6 +15,7 @@ from ..types import (
     DecimalFieldType,
     DurationFieldType,
     FloatFieldType,
+    FormulaFieldType,
     HeaderFieldType,
     IntFieldType,
     TimeFieldType,
@@ -118,7 +120,12 @@ def cell_style(document: Document, data_row: int, col_index: int, cell: BaseFiel
     row_css = row_styles[data_row % len(row_styles)] if row_styles else None
     title = document.data_model.field_titles[col_index]
     column_css = column_key_lookup(config.get("column_styles"), title, col_index)
-    return merge_styles(row_css, column_css, cell.style)
+    return _merge_css(row_css, column_css, cell.style)
+
+
+@lru_cache(maxsize=4096)
+def _merge_css(row_css: str | None, column_css: str | None, cell_css: str | None) -> Style:
+    return merge_styles(row_css, column_css, cell_css)
 
 
 def number_format(
@@ -137,7 +144,8 @@ def number_format(
         return excel_date_format(explicit or column_fmt, config.get("time_format"), config)
     if isinstance(cell, DurationFieldType):
         return explicit or column_fmt or config.get("duration_format")
-    if isinstance(cell, NUMERIC_TYPES):
+    if isinstance(cell, (*NUMERIC_TYPES, FormulaFieldType)):
+        # formulas usually compute numbers, so they take the column's number format
         return explicit or column_fmt or cell.default_format
     return explicit or cell.default_format
 

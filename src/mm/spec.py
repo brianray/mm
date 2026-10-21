@@ -301,7 +301,7 @@ def validate_spec(
             errors.append(f"{path}.rows: must be an array of rows")
             continue
         names = [c["name"] for c in columns] if columns is not None else None
-        types = {c["name"]: c.get("type") for c in columns} if columns is not None else {}
+        types = {c["name"]: _valid_type(c.get("type")) for c in columns or []}
         infer_formulas = _infer_formulas(spec, sheet)
         for r_index, row in enumerate(rows):
             rpath = f"{path}.rows[{r_index}]"
@@ -340,6 +340,15 @@ def validate_spec(
     if max_cells is not None and total_cells > max_cells:
         errors.append(f"$: {total_cells} cells exceeds the limit of {max_cells}")
     return errors
+
+
+def _valid_type(name: Any) -> str | None:
+    # an invalid column type is reported once on the column, not again on every cell
+    try:
+        field_type_for_name(str(name))
+    except ValueError:
+        return None
+    return str(name) if name is not None else None
 
 
 def _infer_formulas(spec: Mapping[str, Any], sheet: Mapping[str, Any]) -> bool:

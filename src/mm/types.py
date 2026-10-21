@@ -452,6 +452,19 @@ class FormulaFieldType(BaseFieldType):
     def display(self) -> str:
         return "=" + self.expression
 
+    def __eq__(self, other: object) -> bool:
+        # "=SUM(A1)" and "SUM(A1)" are the same formula
+        if type(other) is not type(self):
+            return NotImplemented
+        return (self.expression, self.style, self.format) == (
+            other.expression,
+            other.style,
+            other.format,
+        )
+
+    def __hash__(self) -> int:
+        return hash((type(self), self.expression))
+
 
 TYPE_ALIASES: dict[str, type[BaseFieldType]] = {
     "string": StringFieldType,

@@ -26,12 +26,16 @@ A ground-up rewrite for modern Python and GenAI workflows. See
   named tuples and column dicts.
 - Google Sheets output via gspread (`write_gsheet`).
 - Full pytest suite and CI.
+- Documentation: a seven-chapter tutorial, a cookbook and an FAQ; every tutorial and
+  cookbook code block is executed by the test suite and its printed output checked.
 
 ### Changed
 - `writestr()` defaults to XLSX; `write()` picks the format from the extension.
 - Type inference scans every row and skips blanks; rows with new keys add columns
   (`strict_columns=True` restores the old error).
 - Missing values are blank cells; refreshed default styles.
+- XLSX writing reuses openpyxl style arrays per distinct style (about 2.5x faster on
+  large sheets).
 - Django contrib supports current Django, `order`, `column_types`, foreign keys and
   `verbose_names`.
 

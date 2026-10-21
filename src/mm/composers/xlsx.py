@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import copy
 import io
 import logging
 import re
@@ -62,7 +63,7 @@ class ComposerXLSX(ComposerBase):
 
     def __init__(self, data_model: Any, grid: Any, document: Document):
         super().__init__(data_model, grid, document)
-        self._style_cache: dict[tuple[Style, str | None, bool], dict[str, Any]] = {}
+        self._style_cache: dict[tuple[Style, str | None, bool], Any] = {}
 
     def run(self, child: Any = None) -> bytes | None:
         top = child is None
@@ -93,6 +94,7 @@ class ComposerXLSX(ComposerBase):
         config = document.config
         titles = document.data_model.field_titles
         widths: dict[int, float] = {}
+        longest: dict[int, int] = {}
         row_offset = 0
 
         if config.get("headers", True) and titles:
@@ -110,8 +112,10 @@ class ComposerXLSX(ComposerBase):
                 fmt = number_format(document, col, field, style)
                 text = self._write_value(ws, target, field)
                 self._apply_style(target, style, fmt, link=isinstance(field, URLFieldType))
-                if text:
-                    widths[col] = max(widths.get(col, 0.0), self._measure(text, style, field))
+                # only strings near the longest seen so far can widen the column
+                if text and len(text) * 1.5 >= longest.get(col, 0):
+                    longest[col] = max(longest.get(col, 0), len(text))
+                    widths[col] = max(widths.get(col, 0.0), self._measure(text, style))
                 if isinstance(field, ImageFieldType):
                     self._place_image(ws, target, field, col, widths)
 
@@ -190,17 +194,21 @@ class ComposerXLSX(ComposerBase):
                 ws.column_dimensions[letter].width = float(width)
 
     # -- styles ----------------------------------------------------------------------
-    def _measure(self, text: str, style: Style, field: BaseFieldType | None = None) -> float:
+    def _measure(self, text: str, style: Style) -> float:
         return string_width_chars(text, style.font_family, style.font_size or 11, bool(style.bold))
 
     def _apply_style(self, cell: Any, style: Style, fmt: str | None, link: bool = False) -> None:
         key = (style, fmt, link)
-        objects = self._style_cache.get(key)
-        if objects is None:
-            objects = self._build_style(style, fmt, link)
-            self._style_cache[key] = objects
-        for attr, value in objects.items():
-            setattr(cell, attr, value)
+        cached = self._style_cache.get(key)
+        if cached is None:
+            # first cell with this style: let openpyxl register the style objects, then
+            # remember the resulting style array -- assigning font/fill/... on every cell
+            # makes openpyxl re-hash them and dominates write time on large sheets
+            for attr, value in self._build_style(style, fmt, link).items():
+                setattr(cell, attr, value)
+            self._style_cache[key] = copy.copy(cell._style)
+        else:
+            cell._style = copy.copy(cached)
 
     @staticmethod
     def _build_style(style: Style, fmt: str | None, link: bool) -> dict[str, Any]:

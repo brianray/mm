@@ -106,6 +106,9 @@ doc.write("report.md")
 
 ## Next steps
 
+- Work through the [tutorial](tutorial/index.md): seven short chapters building a real
+  reporting project, from this first file to AI agents and custom formats.
+- Browse the [cookbook](cookbook.md) for quick recipes.
 - Hand the job to an LLM with the [workbook spec](workbook-spec.md) and the
   [Anthropic](integrations/anthropic.md) or [OpenAI](integrations/openai.md) guides.
 - Read the [concepts](concepts.md) to customise models, grids and composers.

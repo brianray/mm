@@ -249,3 +249,33 @@ def test_value_objects_without_type():
 
 def test_document_from_spec_alias():
     assert mm.Document.from_spec({"rows": [{"a": 1}]}).rows == [[1]]
+
+
+def test_invalid_column_type_reported_once():
+    spec = {"sheets": [{"columns": [{"name": "d", "type": "day"}], "rows": [["x"], ["y"]]}]}
+    errors = validate_spec(spec)
+    assert len(errors) == 1
+    assert errors[0].startswith("sheets[0].columns[0].type")
+
+
+def test_formula_equality_ignores_leading_equals():
+    assert t.FormulaFieldType("=SUM(A1)") == t.FormulaFieldType("SUM(A1)")
+    assert hash(t.FormulaFieldType("=SUM(A1)")) == hash(t.FormulaFieldType("SUM(A1)"))
+    assert mm.Document([{"a": "=SUM(1)"}]).rows == [["=SUM(1)"]]
+
+
+def test_column_strftime_format_in_text_outputs():
+    spec = {
+        "sheets": [
+            {
+                "columns": [{"name": "d", "type": "date", "format": "%d %b %Y"}],
+                "rows": [["2024-09-27"]],
+            }
+        ]
+    }
+    doc = mm.from_spec(spec)
+    assert "27 Sep 2024" in doc.to_markdown()
+    assert "27 Sep 2024" in doc.to_text()
+    assert "27 Sep 2024" in doc.to_html()
+    assert "27 Sep 2024" in doc.to_csv()
+    assert load_xlsx(doc.to_bytes())["Sheet 1"]["A2"].number_format == "dd mmm yyyy"

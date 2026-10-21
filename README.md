@@ -118,6 +118,8 @@ Python 3.10 or newer. The only required dependency is `openpyxl`.
 ## Documentation
 
 - [Getting started](docs/getting-started.md)
+- **[Tutorial](docs/tutorial/index.md)**: seven hands-on chapters, from a first spreadsheet to AI agents, GPT Actions and extensions
+- [Cookbook](docs/cookbook.md): short recipes for common tasks
 - [Concepts: Document, DataModel, Grid, Composer, Config](docs/concepts.md)
 - [Data sources: dicts, lists, DataFrames, SQL, Django](docs/data-sources.md)
 - [Cell types, formats and styling](docs/styling.md)
@@ -125,6 +127,7 @@ Python 3.10 or newer. The only required dependency is `openpyxl`.
 - [The workbook spec (JSON for LLMs)](docs/workbook-spec.md)
 - Integrations: [Anthropic / Claude](docs/integrations/anthropic.md) · [OpenAI](docs/integrations/openai.md) · [MCP](docs/integrations/mcp.md) · [HTTP API & GPT Actions](docs/integrations/http-api.md) · [Google Sheets](docs/integrations/google-sheets.md)
 - [Command line](docs/cli.md)
+- [FAQ and troubleshooting](docs/faq.md)
 - [Security model](docs/security.md)
 - [Migrating from Marmir 0.x](docs/migration.md)
 - [API reference](docs/api-reference.md)

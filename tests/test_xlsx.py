@@ -168,3 +168,13 @@ def test_composer_into_existing_workbook(records):
     doc = mm.Document(records, name="Extra")
     assert ComposerXLSX(doc.data_model, doc.grid, doc).run(child=wb) is None
     assert "Extra" in wb.sheetnames
+
+
+def test_column_number_format_applies_to_formulas():
+    doc = mm.Document(
+        [{"qty": 2, "total": mm.Formula("A2*3")}, {"qty": 1, "total": "=A3*3"}],
+        number_formats={"total": '"$"#,##0.00'},
+    )
+    ws = _ws(doc)
+    assert ws["B2"].number_format == '"$"#,##0.00'
+    assert ws["B3"].number_format == '"$"#,##0.00'

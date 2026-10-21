@@ -6,6 +6,7 @@ JSON output is a valid workbook spec, so it round-trips through ``mm.from_spec``
 
 from __future__ import annotations
 
+import copy
 import csv
 import html
 import io
@@ -32,7 +33,7 @@ from ..types import (
     TimeFieldType,
     URLFieldType,
 )
-from .base import ComposerBase, cell_style, header_style
+from .base import ComposerBase, cell_style, column_key_lookup, header_style
 
 if TYPE_CHECKING:
     from ..document import Document
@@ -68,6 +69,23 @@ def _visible_rows(document: Document) -> tuple[list[list[BaseFieldType]], int]:
     if limit is not None and len(rows) > int(limit):
         return rows[: int(limit)], len(rows) - int(limit)
     return rows, 0
+
+
+def _column_formatted(document: Document, col: int, cell: BaseFieldType) -> BaseFieldType:
+    """Give a date/time cell its column's strftime format for text display.
+
+    Excel-style column formats only affect spreadsheet output; ``strftime`` patterns
+    (``"%d %b %Y"``) are also honoured by the text formats.
+    """
+    if cell.format or not isinstance(cell, (DateFieldType, TimeFieldType)) or cell.data is None:
+        return cell
+    title = document.data_model.field_titles[col]
+    fmt = column_key_lookup(document.config.get("number_formats"), title, col)
+    if not isinstance(fmt, str) or "%" not in fmt:
+        return cell
+    shown = copy.copy(cell)
+    shown.format = fmt
+    return shown
 
 
 def _titles(document: Document) -> list[str]:
@@ -121,7 +139,9 @@ class ComposerCSV(_TextComposer):
             writer.writerow([_csv_escape(t, escape) for t in _titles(document)])
         rows, _ = _visible_rows(document)
         for row in rows:
-            writer.writerow([self.value(cell, escape) for cell in row])
+            writer.writerow(
+                [self.value(_column_formatted(document, i, c), escape) for i, c in enumerate(row)]
+            )
         return buffer.getvalue()
 
     @staticmethod
@@ -254,7 +274,8 @@ class ComposerMarkdown(_TextComposer):
         )
         rows, hidden = _visible_rows(document)
         for row in rows:
-            lines.append("| " + " | ".join(_md(self.value(c)) for c in row) + " |")
+            cells = [_md(self.value(_column_formatted(document, i, c))) for i, c in enumerate(row)]
+            lines.append("| " + " | ".join(cells) + " |")
         if hidden:
             lines += ["", f"_... {hidden} more row(s) not shown_"]
         return "\n".join(lines)
@@ -321,7 +342,8 @@ class ComposerHTML(_TextComposer):
                 if style.text_align is None and isinstance(cell, _NUMERIC):
                     css = "; ".join(filter(None, [css, "text-align: right"]))
                 attr = f' style="{html.escape(css)}"' if css else ""
-                cells.append(f"<td{attr}>{self.value(cell)}</td>")
+                shown = self.value(_column_formatted(document, col, cell))
+                cells.append(f"<td{attr}>{shown}</td>")
             out.append("<tr>" + "".join(cells) + "</tr>")
         out.append("</tbody>")
         if hidden:
@@ -352,7 +374,13 @@ class ComposerText(_TextComposer):
     def render_sheet(self, document: Document, multiple: bool) -> str:
         titles = _titles(document)
         rows, hidden = _visible_rows(document)
-        body = [[cell.display().replace("\n", " ") for cell in row] for row in rows]
+        body = [
+            [
+                _column_formatted(document, i, c).display().replace("\n", " ")
+                for i, c in enumerate(row)
+            ]
+            for row in rows
+        ]
         show_headers = document.config.get("headers", True)
         widths = [
             max([_width(t) if show_headers else 0] + [_width(r[i]) for r in body])

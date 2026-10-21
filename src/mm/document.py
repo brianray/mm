@@ -15,6 +15,7 @@ from .composers import ComposerBase, format_for_path, get_composer_class
 from .config import Config
 from .grid import GridBase, Serializer
 from .model import DataModel
+from .types import FormulaFieldType
 
 log = logging.getLogger(__name__)
 
@@ -213,8 +214,11 @@ class Document(DocumentWriter):
 
     @property
     def rows(self) -> list[list[Any]]:
-        """Cell values (plain Python objects) for this sheet."""
-        return [[cell.data for cell in row] for row in self.grid.grid_data]
+        """Cell values (plain Python objects) for this sheet; formulas as ``"=..."`` text."""
+        return [
+            [cell.display() if isinstance(cell, FormulaFieldType) else cell.data for cell in row]
+            for row in self.grid.grid_data
+        ]
 
     def to_records(self) -> list[dict[Any, Any]]:
         """Rows as dicts keyed by column title."""
