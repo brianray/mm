@@ -1,0 +1,12 @@
+{
+  "name": "marmir",
+  "version": "2.0.0",
+  "description": "Create, convert and read spreadsheets (Excel, CSV, Markdown, HTML) from structured data. Adds the Marmir MCP server and the marmir-spreadsheets skill.",
+  "author": {
+    "name": "Brian Ray",
+    "email": "brianhray@gmail.com"
+  },
+  "homepage": "https://github.com/brianray/mm",
+  "repository": "https://github.com/brianray/mm",
+  "keywords": ["spreadsheet", "excel", "xlsx", "csv", "mcp"]
+}

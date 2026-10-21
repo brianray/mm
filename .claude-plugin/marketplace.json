@@ -1,0 +1,14 @@
+{
+  "name": "marmir",
+  "owner": {
+    "name": "Brian Ray",
+    "email": "brianhray@gmail.com"
+  },
+  "plugins": [
+    {
+      "name": "marmir",
+      "source": "./",
+      "description": "Spreadsheet creation and reading for Claude: MCP tools plus a skill."
+    }
+  ]
+}
