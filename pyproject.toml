@@ -68,7 +68,10 @@ path = "src/mm/__init__.py"
 packages = ["src/mm"]
 
 [tool.hatch.build.targets.sdist]
-include = ["src/mm", "tests", "docs", "examples", "skills", "README.md", "CHANGELOG.md"]
+include = [
+    "src/mm", "tests", "docs", "examples", "skills", "README.md", "CHANGELOG.md",
+    ".claude-plugin", ".mcp.json",
+]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
