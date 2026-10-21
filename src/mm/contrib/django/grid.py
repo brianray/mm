@@ -17,7 +17,8 @@ class DjangoGrid(GridBase):
     def populate(self, indata: Any, config: Any = None) -> None:
         names = getattr(self.data_model, "field_names", self.titles)
         self.grid_data = []
-        for instance in indata.iterator() if hasattr(indata, "iterator") else indata:
+        instances = indata.iterator(chunk_size=2000) if hasattr(indata, "iterator") else indata
+        for instance in instances:
             row: list[BaseFieldType] = []
             for col_id, name in enumerate(names):
                 value = getattr(instance, name)

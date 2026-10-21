@@ -147,7 +147,7 @@ def number_format(
     if isinstance(cell, (*NUMERIC_TYPES, FormulaFieldType)):
         # formulas usually compute numbers, so they take the column's number format
         return explicit or column_fmt or cell.default_format
-    return explicit or cell.default_format
+    return explicit or column_fmt or cell.default_format
 
 
 def _letter(index: int) -> str:

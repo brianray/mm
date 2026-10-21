@@ -4,6 +4,7 @@
 """
 
 import sqlite3
+from pathlib import Path
 
 import pandas as pd
 
@@ -19,5 +20,6 @@ conn.execute("create table orders (id integer, customer text, total real)")
 conn.executemany("insert into orders values (?, ?, ?)", [(1, "Acme", 99.5), (2, "Globex", 250.0)])
 doc.add_sheet(conn.execute("select * from orders"), name="Orders", column_types={"total": "currency"})
 
+Path("marmir_output").mkdir(exist_ok=True)
 doc.write("marmir_output/report.xlsx")
 print(doc.to_markdown())

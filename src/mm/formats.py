@@ -67,6 +67,10 @@ def to_excel_from_C_codes(cdate_str: str, config: Any = None) -> str:
         code = match.group()
         if code not in _LOOKUP:
             raise UnsupportedFormatCodeException(f"Unknown format code {code} in {cdate_str!r}")
+        if code in ("%I", "%-I") and "%p" not in _TOKEN.findall(cdate_str):
+            raise UnsupportedFormatCodeException(
+                f"{code} requires %p for a 12-hour Excel clock in {cdate_str!r}"
+            )
         excel, reason = _LOOKUP[code]
         if excel is None:
             raise UnsupportedFormatCodeException(
