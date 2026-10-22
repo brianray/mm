@@ -5,6 +5,7 @@ build-backend = "hatchling.build"
 [project]
 name = "marmir"
 dynamic = ["version"]
+version = "2.1.1"
 description = "Marmir: Python data structures to spreadsheets -- built for humans and GenAI agents."
 readme = "README.md"
 requires-python = ">=3.10"
