@@ -5,6 +5,8 @@
 [![CI](https://github.com/brianray/mm/actions/workflows/ci.yml/badge.svg)](https://github.com/brianray/mm/actions/workflows/ci.yml)
 ![Python](https://img.shields.io/badge/python-3.10%2B-blue)
 
+[![QR code to repository](https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=https%3A%2F%2Fgithub.com%2Fbrianray%2FMarMir)](https://github.com/brianray/MarMir) < Scan to this repo
+
 Marmir takes lists of dicts, DataFrames, SQL cursors, Django QuerySets -- or a JSON
 "workbook spec" written by a language model -- and produces spreadsheets people actually
 want to open: typed cells, real dates, live formulas, hyperlinks, styled headers, banded
